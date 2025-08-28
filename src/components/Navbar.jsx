@@ -5,7 +5,7 @@ import { PiShoppingCart } from "react-icons/pi";
 const Navbar = () => {
     const [activePage, setActivePage] = useState('home')
     return (
-        <nav className='w-full h-20 flex items-center px-7 shadow-sm'>
+        <nav className='w-full h-20 flex items-center px-7 shadow-sm/5'>
             <div className='w-full flex items-center justify-between '>
                 <h2 className='text-orange-600 text-3xl font-bold md:text-4xl'>Rest.</h2>
                 <ul className='hidden text-lg font-semibold md:flex gap-7'>
