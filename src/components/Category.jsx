@@ -22,7 +22,7 @@ const Category = () => {
                 pick your favorite category and start your order.
             </p>
 
-            <section className='w-full overflow-x-scroll flex gap-5'>
+            <section className='w-full overflow-x-scroll flex gap-5 mb-5'>
                 {menu_list.map((menu, index) => (
                     <div
                         key={index}
@@ -46,6 +46,7 @@ const Category = () => {
                     </div>
                 ))}
             </section>
+            <hr className='text-black/20' />
         </>
     )
 }

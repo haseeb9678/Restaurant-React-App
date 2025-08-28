@@ -6,7 +6,7 @@ import FoodItems from './components/FoodItems'
 
 const App = () => {
   return (
-    <div className='w-[95%] mx-auto flex flex-col gap-5 md:w-[98%]'>
+    <div className='w-[95%] mx-auto flex flex-col gap-3 md:w-[98%]'>
       <Navbar />
       <Hero />
       <Category />
