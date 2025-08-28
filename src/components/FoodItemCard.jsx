@@ -1,10 +1,16 @@
 import React from 'react'
 import { assets } from '../assets/frontend_assets/assets'
+import { useNavigate } from 'react-router-dom'
 
 const FoodItemCard = ({ item }) => {
 
+    const navigate = useNavigate()
+
     return (
-        <div className='flex flex-col min-w-50 max-w-110 bg-gray-300/5 shadow-lg rounded-sm my-2 pb-3 md:max-w-100 lg:max-w-85'>
+        <div
+            className='flex flex-col min-w-50 max-w-110 cursor-pointer hover:bg-gray-300/30 bg-gray-300/5 shadow-lg rounded-sm my-2 pb-3 md:max-w-100 lg:max-w-85'
+            onClick={() => navigate('orderItem')}
+        >
 
             <div className='h-[70%] overflow-hidden'>
                 <img className='h-full w-full object-cover rounded-t-sm' src={item.image} alt={item.name} />
