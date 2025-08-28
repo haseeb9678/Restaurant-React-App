@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
 .swiper-pagination-bullet {
     background: white !important;
     /* inactive dots */
@@ -10,4 +14,9 @@
     background: white !important;
     /* active dot */
     opacity: 1;
+}
+
+/* Hide scrollbar for Chrome, Safari, Edge */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
 }
