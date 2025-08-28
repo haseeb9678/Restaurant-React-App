@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+.swiper-pagination-bullet {
+    background: white !important;
+    /* inactive dots */
+    opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+    background: white !important;
+    /* active dot */
+    opacity: 1;
+}
