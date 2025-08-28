@@ -13,7 +13,7 @@ import 'swiper/css/scrollbar';
 
 const Hero = () => {
     return (
-        <header className='h-[37vh] w-full md:h-[65vh]'>
+        <header className='h-[37vh] w-full md:h-[42vh]'>
             <Swiper
                 modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
                 spaceBetween={50}
