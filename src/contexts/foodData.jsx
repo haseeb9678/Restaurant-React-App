@@ -6,7 +6,6 @@ export const FoodContext = createContext();
 export const FoodContextProvider = ({ children }) => {
     const [activeCategory, setActiveCategory] = useState('');
     const [cartItems, setCartItems] = useState([]);
-
     const [orderItems, setOrderItems] = useState([]);
 
     return (

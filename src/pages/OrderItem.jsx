@@ -58,6 +58,7 @@ const OrderItem = () => {
     const handleCart = () => {
         if (quantity > 0) {
             setCartItems(prev => [...prev, {
+                id: Date.now(),
                 item: item,
                 quantity: quantity,
                 totalPrice: totalPrice
