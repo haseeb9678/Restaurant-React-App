@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useState } from 'react';
 import { PiShoppingCart } from "react-icons/pi";
 import { FoodContext } from '../contexts/foodData';
+import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
     const [activePage, setActivePage] = useState('home')
@@ -11,9 +12,9 @@ const Navbar = () => {
             <div className='w-full flex items-center justify-between '>
                 <h2 className='text-orange-600 text-3xl font-bold md:text-4xl'>CHESSY.</h2>
                 <ul className='hidden text-lg font-semibold md:flex gap-7'>
-                    <li onClick={() => setActivePage("home")} className={activePage == 'home' ? "border-b-3 border-orange-500" : ""}>Home</li>
-                    <li onClick={() => setActivePage("about")} className={activePage == 'about' ? "border-b-3 border-orange-500" : ""}>About</li>
-                    <li onClick={() => setActivePage("contact")} className={activePage == 'contact' ? "border-b-3 border-orange-500" : ""}>Contact</li>
+                    <li><NavLink to='/' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>Home</NavLink></li>
+                    <li><NavLink to='/about' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>About</NavLink></li>
+                    <li><NavLink to='/contact' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>Contact</NavLink></li>
                 </ul>
                 <div className='flex items-center gap-5'>
                     <div className='relative'>

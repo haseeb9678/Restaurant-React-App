@@ -10,6 +10,7 @@ const OrderItem = () => {
     const [quantity, setQuantity] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const location = useLocation();
+    const [warn, setWarn] = useState(false);
 
     const { cartItems, setCartItems } = useContext(FoodContext);
 
@@ -17,11 +18,22 @@ const OrderItem = () => {
         setItem(location.state || null);
     }, [location.state]);
 
+    useEffect(() => {
+        setQuantity(0);
+        setTotalPrice(0);
+        setWarn(false);
+    }, [item])
+
+    const toogleWarn = () => {
+        setWarn(prev => !prev)
+    }
+
     const handleIncrease = () => {
         if (quantity < 10) {
             setQuantity(prev => prev + 1)
             updatePrice('inc')
         }
+        if (warn) toogleWarn()
 
     }
 
@@ -30,6 +42,8 @@ const OrderItem = () => {
             setQuantity(prev => prev - 1);
             updatePrice('dec')
         }
+
+        if (warn) toogleWarn()
 
     }
 
@@ -43,13 +57,16 @@ const OrderItem = () => {
 
     const handleCart = () => {
         if (quantity > 0) {
-
             setCartItems(prev => [...prev, {
                 item: item,
                 quantity: quantity,
                 totalPrice: totalPrice
             }])
 
+            setQuantity(0);
+            setTotalPrice(0);
+        } else {
+            if (!warn) toogleWarn();
         }
     }
 
@@ -105,13 +122,20 @@ const OrderItem = () => {
                             <button onClick={handleDecrease} className='bg-red-500/70 text-xl font-semibold rounded-full w-9 h-9 cursor-pointer'>-</button>
                         </div>
                     </div>
-
-                    <button className="mt-auto cursor-pointer bg-orange-500 flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl hover:bg-orange-600">
-                        <span onClick={handleCart}>Add to Cart</span>
+                    <p className='text-red-500 text-end text-sm h-3 mb-2'>
+                        {
+                            warn ? 'Please select quantity*' : null
+                        }
+                    </p>
+                    <button
+                        onClick={handleCart}
+                        className="mt-auto cursor-pointer bg-orange-500 flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl hover:bg-orange-600">
+                        <span >Add to Cart</span>
                         <PiShoppingCart />
                     </button>
+
                 </div>
-            </section>
+            </section >
 
             <RelatedItems item={item} />
         </>
