@@ -106,7 +106,7 @@ const OrderItem = () => {
                         </div>
                     </div>
 
-                    <button className="mt-auto bg-orange-500 flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl hover:bg-orange-600 transition">
+                    <button className="mt-auto cursor-pointer bg-orange-500 flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl hover:bg-orange-600">
                         <span onClick={handleCart}>Add to Cart</span>
                         <PiShoppingCart />
                     </button>

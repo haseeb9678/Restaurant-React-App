@@ -22,7 +22,7 @@ const FoodItems = ({ item }) => {
 
     return (
         <>
-            <h2 className='font-bold text-xl mb-2 md:text-2xl'>{
+            <h2 className='font-bold text-xl mb-3 md:text-2xl'>{
 
                 activeCategory == '' ? 'Top dishes near you' : (
                     <>
@@ -35,7 +35,7 @@ const FoodItems = ({ item }) => {
             }
 
             </h2>
-            <section className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            <section className='grid grid-cols-1 gap-5 justify-items-center md:justify-items-start md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                 {
                     filteredData.map((item, index) => {
 

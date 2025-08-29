@@ -8,7 +8,7 @@ const FoodItemCard = ({ item }) => {
 
     return (
         <div
-            className='flex flex-col min-w-50 max-w-110 cursor-pointer hover:bg-gray-300/30 bg-gray-300/5 shadow-lg rounded-sm my-2 pb-3 md:max-w-100 lg:max-w-85'
+            className='flex flex-col min-w-50 max-w-95 cursor-pointer hover:bg-gray-300/30 transform hover:scale-102 transition duration-300  bg-gray-300/5 shadow-xl rounded-sm my-2 pb-3 md:max-w-100 lg:max-w-85'
             onClick={() => navigate('/orderItem', { state: item })}
         >
 
