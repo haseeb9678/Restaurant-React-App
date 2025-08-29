@@ -18,9 +18,9 @@ const Navbar = () => {
                     <li><NavLink to='/about' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>About</NavLink></li>
                     <li><NavLink to='/contact' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>Contact</NavLink></li>
                 </ul>
-                <div onClick={() => navigate('/cart')} className='flex items-center gap-5'>
+                <div className='flex items-center gap-5'>
 
-                    <div className='relative'>
+                    <div onClick={() => navigate('/order')} className='relative'>
                         {
                             orderItems.length > 0 ? <p
                                 className='bg-orange-500 h-5 w-5
@@ -31,7 +31,7 @@ const Navbar = () => {
 
                         <PiBag className='text-3xl' />
                     </div>
-                    <div className='relative'>
+                    <div onClick={() => navigate('/cart')} className='relative'>
                         {
                             cartItems.length > 0 ? <p
                                 className='bg-orange-500 h-5 w-5

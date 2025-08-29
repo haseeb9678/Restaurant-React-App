@@ -7,6 +7,7 @@ import OrderItem from './pages/OrderItem'
 import RootLayout from './layouts/RootLayout'
 import ErrorPage from './pages/ErrorPage'
 import Cart from './pages/Cart'
+import Order from './pages/Order'
 
 const App = () => {
 
@@ -16,6 +17,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path='orderItem' element={<OrderItem />} />
         <Route path='cart' element={<Cart />} />
+        <Route path='order' element={<Order />} />
         <Route path='*' element={<ErrorPage />} />
       </Route>
     )
