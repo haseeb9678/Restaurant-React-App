@@ -19,8 +19,6 @@ const FoodItems = () => {
             newData = food_list.filter((item) => item.category == activeCategory);
         }
 
-        console.log(newData);
-
     }, [activeCategory])
 
     return (
