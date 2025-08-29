@@ -12,7 +12,7 @@ const Navbar = () => {
     return (
         <nav className='w-full h-20 mb-3 flex items-center px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
             <div className='w-full flex items-center justify-between '>
-                <h2 className='text-orange-600 text-3xl font-bold md:text-4xl'>CHESSY.</h2>
+                <h2 onClick={() => navigate('/')} className='text-orange-600 text-3xl font-bold md:text-4xl'>CHESSY.</h2>
                 <ul className='hidden text-lg font-semibold md:flex gap-7'>
                     <li><NavLink to='/' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>Home</NavLink></li>
                     <li><NavLink to='/about' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>About</NavLink></li>
