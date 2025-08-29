@@ -3,31 +3,41 @@ import { FoodContext } from '../contexts/foodData'
 import { food_list } from '../assets/frontend_assets/assets';
 import FoodItemCard from './FoodItemCard';
 
-const FoodItems = () => {
+const FoodItems = ({ item }) => {
     const { activeCategory, setActiveCategory } = useContext(FoodContext);
     const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
 
-        let newData;
-
         if (activeCategory == '') {
             setFilteredData(food_list)
-            newData = food_list;
         } else {
             setFilteredData(food_list.filter((item) => item.category == activeCategory));
-            newData = food_list.filter((item) => item.category == activeCategory);
+            if (item) {
+                setFilteredData(prev => prev.filter((itm) => itm.id != item.id))
+            }
         }
 
-    }, [activeCategory])
+    }, [activeCategory, item])
 
     return (
         <>
-            <h2 className='font-bold text-2xl mb-2'>{activeCategory == '' ? 'Top dishes near you' : `${activeCategory}`}</h2>
+            <h2 className='font-bold text-xl mb-2 md:text-2xl'>{
+
+                activeCategory == '' ? 'Top dishes near you' : (
+                    <>
+                        {item ? 'Related ' : null}
+                        <span className={`${item ? 'text-orange-500 text-2xl md:text-3xl' : ''}`}>{activeCategory}</span>
+                        {item ? ' items' : null}
+
+                    </>)
+
+            }
+
+            </h2>
             <section className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                 {
                     filteredData.map((item, index) => {
-                        console.log(item.name);
 
                         return <FoodItemCard
                             key={index}

@@ -9,7 +9,7 @@ const FoodItemCard = ({ item }) => {
     return (
         <div
             className='flex flex-col min-w-50 max-w-110 cursor-pointer hover:bg-gray-300/30 bg-gray-300/5 shadow-lg rounded-sm my-2 pb-3 md:max-w-100 lg:max-w-85'
-            onClick={() => navigate('orderItem', { state: item })}
+            onClick={() => navigate('/orderItem', { state: item })}
         >
 
             <div className='h-[70%] overflow-hidden'>
