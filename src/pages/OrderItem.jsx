@@ -118,9 +118,9 @@ const OrderItem = () => {
                     <div className='flex gap-3 items-center justify-end mb-3'>
                         <p className='font-semibold text-md text-black/60'>Select Quantity</p>
                         <div className='flex gap-3 items-center bg-white shadow-sm px-3 py-2 rounded-full'>
-                            <button onClick={handleIncrease} className='bg-green-500/70 text-xl font-semibold rounded-full w-9 h-9 cursor-pointer'>+</button>
+                            <button onClick={handleIncrease} className='bg-green-500/70 text-xl text-white font-semibold rounded-full w-9 h-9 cursor-pointer'>+</button>
                             <p className='font-semibold w-3'>{quantity}</p>
-                            <button onClick={handleDecrease} className='bg-red-500/70 text-xl font-semibold rounded-full w-9 h-9 cursor-pointer'>-</button>
+                            <button onClick={handleDecrease} className='bg-red-500/70 text-xl text-white font-semibold rounded-full w-9 h-9 cursor-pointer'>-</button>
                         </div>
                     </div>
                     <p className='text-red-500 text-end text-sm h-3 mb-2'>

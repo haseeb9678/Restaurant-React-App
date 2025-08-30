@@ -8,6 +8,7 @@ import RootLayout from './layouts/RootLayout'
 import ErrorPage from './pages/ErrorPage'
 import Cart from './pages/Cart'
 import Order from './pages/Order'
+import Auth from './pages/Auth'
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
         <Route path='orderItem' element={<OrderItem />} />
         <Route path='cart' element={<Cart />} />
         <Route path='order' element={<Order />} />
+        <Route path='auth' element={<Auth />} />
         <Route path='*' element={<ErrorPage />} />
       </Route>
     )
