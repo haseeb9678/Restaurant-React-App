@@ -1,21 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserInfoContext } from '../contexts/userInfo'
 import { useOutletContext } from 'react-router-dom'
+import { PiEyeSlash } from "react-icons/pi";
+import { PiEyeLight } from "react-icons/pi";
 
 const Auth = () => {
     const { user, setUser, logedIn, setLogedIn } = useContext(UserInfoContext)
     const [signIn, setSignIn] = useState(true)
+    const [passwordHide, setPasswordHide] = useState(true)
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [errors, setErrors] = useState({})
     const { setHideNav } = useOutletContext()
 
+
     useEffect(() => {
         setHideNav(true)
 
         return () => setHideNav(false)
     }, [])
+
+    const tooglePasswordHide = () => {
+        setPasswordHide(prev => !prev)
+    }
 
     const allClear = () => {
         setName('')
@@ -29,24 +37,44 @@ const Auth = () => {
         setSignIn(prev => !prev)
     }
 
+
     const handleSubmit = (e) => {
         e.preventDefault()
         const formData = new FormData(e.target)
         let newErrors = {}
 
-
-        if (!formData.get("email").includes('@')) {
+        const emailValue = formData.get("email")
+        if (!emailValue.includes('@')) {
             newErrors.email = 'Invalid email'
-        } else if (formData.get("email").includes('@')) {
-            setEmail(formData.get("email"))
+        } else if (emailValue.includes('@')) {
+            setEmail(emailValue)
         }
 
-        if (formData.get("password").length < 5 || formData.get("password").length > 8) {
+        const passwordValue = formData.get("password")
+        const specialCharRegex = /[!@#$%^&*+(),.?":{}|<>]/
+        const capitalLetterRegex = /[A-Z]/;
+        const smallLetterRegex = /[a-z]/;
+        const digitRegex = /[0-9]/
+
+        if (passwordValue.length < 5 || passwordValue.length > 8) {
             newErrors.password = 'Password length must be between 5-8'
-        } else {
+        }
+        else if (!specialCharRegex.test(passwordValue)) {
+            newErrors.password = 'Password must contain at least one special character'
+        }
+        else if (!capitalLetterRegex.test(passwordValue)) {
+            newErrors.password = 'Password must contain at least one capital letter'
+        }
+        else if (!smallLetterRegex.test(passwordValue)) {
+            newErrors.password = 'Password must contain at least one small letter'
+        }
+        else if (!digitRegex.test(passwordValue)) {
+            newErrors.password = 'Password must contain at least one digit'
+        }
+        else {
             setPassword(formData.get("password"))
         }
-        if (formData.get("name") == '') {
+        if (!signIn) {
 
             if (formData.get("name").length < 5 || formData.get("name").length > 10) {
                 newErrors.name = 'Name length must be between 5-10'
@@ -60,9 +88,9 @@ const Auth = () => {
     }
 
     return (
-        <section className='mx-auto mt-20 min-w-[250px] w-[70%] max-w-[420px] lg:max-w-[500px] rounded-lg border-t-3 border-orange-500 shadow-md px-3 py-5 flex flex-col gap-12 items-center'>
+        <section className='mx-auto mt-20 min-w-[250px] w-[85%] max-w-[420px] lg:max-w-[500px] rounded-lg border-t-3 border-orange-500 shadow-md px-3 py-5 flex flex-col gap-12 items-center'>
             <h2 className='font-bold mt-3 text-2xl md:text-3xl'>{signIn ? "Sign In" : "Sign Up"}</h2>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-7 items-center justify-center w-[80%]'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-7 items-center justify-center w-[95%] lg:w-[80%]'>
                 {
                     signIn ? (
                         <>
@@ -79,17 +107,22 @@ const Auth = () => {
                                 {errors.email && <p className='text-red-600 text-[10px] md:text-[12px]'>{errors.email}</p>}
                             </label>
 
-                            <label htmlFor="password" className='w-full flex flex-col gap-2'>
-                                <input
-                                    autoComplete='off'
-                                    value={password}
-                                    onChange={(e) => {
-                                        setPassword(e.target.value)
-                                        if (errors.password) {
-                                            setErrors(prev => ({ ...prev, password: undefined }))
-                                        }
-                                    }}
-                                    className={`border-b-2 ${errors.password ? 'border-b-red-500/70' : 'border-b-black/30 focus:border-b-black/80'}   outline-none w-full`} type="password" name="password" id="password" placeholder='Enter your password...' />
+                            <label htmlFor="password" className='w-full flex flex-col gap-2 '>
+                                <div className={`flex flex-row-reverse justify-between items-center border-b-2 ${errors.password ? 'border-b-red-500/70' : 'border-b-black/30 focus-within:border-b-black/80'}`}>
+                                    <span onClick={tooglePasswordHide} className='text-lg'> {
+                                        passwordHide ? <PiEyeLight /> : <PiEyeSlash />
+                                    }</span>
+                                    <input
+                                        autoComplete='off'
+                                        value={password}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value)
+                                            if (errors.password) {
+                                                setErrors(prev => ({ ...prev, password: undefined }))
+                                            }
+                                        }}
+                                        className=' outline-none w-full' type={passwordHide ? "password" : "text"} name="password" id="password" placeholder='Enter your password...' />
+                                </div>
                                 {errors.password && <p className='text-red-600 text-[10px] md:text-[12px]'>{errors.password}</p>}
                             </label>
 
@@ -127,16 +160,22 @@ const Auth = () => {
                                 {errors.email && <p className='text-red-600 text-[10px] md:text-[12px]'>{errors.email}</p>}
                             </label>
 
-                            <label htmlFor="password" className='w-full flex flex-col gap-2'>
-                                <input
-                                    value={password}
-                                    onChange={(e) => {
-                                        setPassword(e.target.value)
-                                        if (errors.password) {
-                                            setErrors(prev => ({ ...prev, password: undefined }))
-                                        }
-                                    }}
-                                    className={`border-b-2 ${errors.password ? 'border-b-red-500/70' : 'border-b-black/30 focus:border-b-black/80'}   outline-none w-full`} type="password" name="password" id="password" placeholder='Enter your password...' />
+                            <label htmlFor="password" className='w-full flex flex-col gap-2 '>
+                                <div className={`flex flex-row-reverse justify-between items-center border-b-2 ${errors.password ? 'border-b-red-500/70' : 'border-b-black/30 focus-within:border-b-black/80'}`}>
+                                    <span onClick={tooglePasswordHide} className='text-lg'> {
+                                        passwordHide ? <PiEyeLight /> : <PiEyeSlash />
+                                    }</span>
+                                    <input
+                                        autoComplete='off'
+                                        value={password}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value)
+                                            if (errors.password) {
+                                                setErrors(prev => ({ ...prev, password: undefined }))
+                                            }
+                                        }}
+                                        className=' outline-none w-full' type={passwordHide ? "password" : "text"} name="password" id="password" placeholder='Enter your password...' />
+                                </div>
                                 {errors.password && <p className='text-red-600 text-[10px] md:text-[12px]'>{errors.password}</p>}
                             </label>
 
