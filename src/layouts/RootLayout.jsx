@@ -10,9 +10,9 @@ const RootLayout = () => {
     return (
         <>
             {!hideNav ? <Navbar /> : (
-                <nav className='w-full h-20 mb-3 flex items-center px-2 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
-                    <div className='w-full flex items-center justify-start '>
-                        <img onClick={() => navigate('/')} src={RestaurantLogo} alt='Restaurnt Logo' className='pt-3 w-43 h-40 cursor-pointer overflow-hidden' />
+                <nav className='w-full h-20 mb-3 flex items-center px-4 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
+                    <div className='w-full flex items-center justify-start overflow-hidden '>
+                        <img onClick={() => navigate('/')} src={RestaurantLogo} alt='Restaurnt Logo' className='pt-4 -ml-5 w-47 h-47 cursor-pointer overflow-hidden' />
                     </div>
                 </nav>
             )}

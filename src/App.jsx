@@ -9,6 +9,7 @@ import ErrorPage from './pages/ErrorPage'
 import Cart from './pages/Cart'
 import Order from './pages/Order'
 import Auth from './pages/Auth'
+import UserPage from './pages/UserPage'
 
 const App = () => {
 
@@ -16,6 +17,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Home />} />
+        <Route path='user' element={<UserPage />} />
         <Route path='orderItem' element={<OrderItem />} />
         <Route path='cart' element={<Cart />} />
         <Route path='order' element={<Order />} />

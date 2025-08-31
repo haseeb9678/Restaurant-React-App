@@ -1,25 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserInfoContext } from '../contexts/userInfo'
-import { useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import { PiEyeSlash } from "react-icons/pi";
 import { PiEyeLight } from "react-icons/pi";
 
 const Auth = () => {
-    const { user, setUser, logedIn, setLogedIn } = useContext(UserInfoContext)
+    const { users, addUsers, loggedUser, addLoggedUser, findUser } = useContext(UserInfoContext)
     const [signIn, setSignIn] = useState(true)
     const [passwordHide, setPasswordHide] = useState(true)
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [errors, setErrors] = useState({})
+    const [invalidWarn, setInvalidWarn] = useState({ status: false, message: '' })
     const { setHideNav } = useOutletContext()
+    const navigate = useNavigate()
+
+    console.log(users);
 
 
     useEffect(() => {
         setHideNav(true)
-
         return () => setHideNav(false)
     }, [])
+
+    useEffect(() => {
+        setInvalidWarn({ status: false, message: '' })
+    }, [name, email, password])
+
 
     const tooglePasswordHide = () => {
         setPasswordHide(prev => !prev)
@@ -62,6 +70,11 @@ const Auth = () => {
         }
     }
 
+    const checkValiditySignUp = () => {
+        const result = users.some((user) => user.email == email)
+        return !result
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -88,6 +101,36 @@ const Auth = () => {
         }
 
         setErrors(newErrors)
+
+        if (signIn && Object.keys(newErrors).length == 0) {
+            const userData = findUser({ email, password })
+            if (userData) {
+                console.log('correct pass or name');
+                addLoggedUser({ email, password })
+                navigate('/')
+            } else {
+                setInvalidWarn(prev => ({ status: true, message: "invalid email or password" }))
+            }
+        }
+
+        if (!signIn && Object.keys(newErrors).length == 0) {
+            if (checkValiditySignUp()) {
+                const newUser = {
+                    userID: Date.now(),
+                    name,
+                    email,
+                    password,
+                    ordersData: {
+                        checkouts: [],
+                        orders: []
+                    }
+                }
+                addUsers(newUser)
+                navigate('/')
+            } else {
+                setInvalidWarn({ status: true, message: "user with email already exists" })
+            }
+        }
 
     }
 
@@ -129,6 +172,12 @@ const Auth = () => {
                                 </div>
                                 {errors.password && <p className='text-red-600 text-[10px] md:text-[12px]'>{errors.password}</p>}
                             </label>
+
+                            {
+                                invalidWarn.status ? (
+                                    <p className='text-red-600 text-[10px] md:text-[12px]'>{invalidWarn.message}</p>
+                                ) : null
+                            }
 
 
                             <button
@@ -183,9 +232,15 @@ const Auth = () => {
                                 {errors.password && <p className='text-red-600 text-[10px] md:text-[12px]'>{errors.password}</p>}
                             </label>
 
+                            {
+                                invalidWarn.status ? (
+                                    <p className='text-red-600 text-[10px] md:text-[12px]'>{invalidWarn.message}</p>
+                                ) : null
+                            }
+
                             <button
                                 type='submit'
-                                className='cursor-pointer mt-5 bg-orange-500 text-white rounded-full px-2 py-1 w-[40%] md:px-6 md:py-2 hover:bg-orange-600'>Sign in</button>
+                                className='cursor-pointer mt-5 bg-orange-500 text-white rounded-full px-2 py-1 w-[40%] md:px-6 md:py-2 hover:bg-orange-600'>Sign up</button>
                         </>
                     )
                 }

@@ -2,18 +2,21 @@ import React, { useContext } from 'react'
 import { useState } from 'react';
 import { PiShoppingCart } from "react-icons/pi";
 import { PiBag } from "react-icons/pi";
+import { PiUserCircleLight } from "react-icons/pi";
 import RestaurantLogo from '../assets/frontend_assets/restaurant-logo.png'
 import { FoodContext } from '../contexts/foodData';
 import { NavLink, useNavigate } from 'react-router-dom'
+import { UserInfoContext } from '../contexts/userInfo';
 
 const Navbar = () => {
     const [activePage, setActivePage] = useState('home')
     const { cartItems, orderItems } = useContext(FoodContext);
+    const { loggedIn } = useContext(UserInfoContext)
     const navigate = useNavigate();
     return (
-        <nav className='w-full h-20 mb-3 flex items-center px-2 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
+        <nav className='w-full h-20 mb-3 flex items-center px-4 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
             <div className='w-full flex items-center justify-between '>
-                <img onClick={() => navigate('/')} src={RestaurantLogo} alt='Restaurnt Logo' className='pt-3 w-43 h-40 cursor-pointer overflow-hidden' />
+                <img onClick={() => navigate('/')} src={RestaurantLogo} alt='Restaurnt Logo' className='pt-4 -ml-7 w-47 h-47 cursor-pointer overflow-hidden' />
                 <ul className='hidden text-lg font-semibold md:flex gap-7'>
                     <li><NavLink to='/' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>Home</NavLink></li>
                     <li><NavLink to='/about' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>About</NavLink></li>
@@ -44,9 +47,13 @@ const Navbar = () => {
                         <PiShoppingCart className='text-2xl md:text-3xl' />
                     </div>
 
-                    <button
-                        onClick={() => navigate('/auth')}
-                        className='cursor-pointer bg-orange-500 text-white rounded-full px-2 text-nowrap py-1 md:px-6 hover:bg-orange-600'>Sign in</button>
+                    {
+                        loggedIn ? <PiUserCircleLight onClick={() => navigate('/user')} className='text-2xl md:text-3xl' /> : <button
+                            onClick={() => navigate('/auth')}
+                            className='cursor-pointer bg-orange-500 text-white rounded-full px-2 text-nowrap py-1 md:px-6 hover:bg-orange-600'>Sign in</button>
+                    }
+
+
                 </div>
             </div>
         </nav>
