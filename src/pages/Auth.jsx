@@ -37,6 +37,31 @@ const Auth = () => {
         setSignIn(prev => !prev)
     }
 
+    const passwordValidation = (passwordValue, newErrors) => {
+        const specialCharRegex = /[!@#$%^&*+(),.?":{}|<>]/
+        const capitalLetterRegex = /[A-Z]/;
+        const smallLetterRegex = /[a-z]/;
+        const digitRegex = /[0-9]/
+        if (passwordValue.length < 5 || passwordValue.length > 15) {
+            newErrors.password = 'Password must be 5 to 15 characters long.'
+        }
+        else if (!specialCharRegex.test(passwordValue)) {
+            newErrors.password = 'Password must include at least one special character (e.g., !@#$%^&*+).'
+        }
+        else if (!capitalLetterRegex.test(passwordValue)) {
+            newErrors.password = 'Password must include at least one uppercase letter (A–Z).'
+        }
+        else if (!smallLetterRegex.test(passwordValue)) {
+            newErrors.password = 'Password must include at least one lowercase letter (a–z).'
+        }
+        else if (!digitRegex.test(passwordValue)) {
+            newErrors.password = 'Password must include at least one number (0–9).'
+        }
+        else {
+            setPassword(passwordValue)
+        }
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -44,37 +69,16 @@ const Auth = () => {
         let newErrors = {}
 
         const emailValue = formData.get("email")
+        const passwordValue = formData.get("password")
+
         if (!emailValue.includes('@')) {
             newErrors.email = 'Invalid email'
         } else if (emailValue.includes('@')) {
             setEmail(emailValue)
         }
 
-        const passwordValue = formData.get("password")
-        const specialCharRegex = /[!@#$%^&*+(),.?":{}|<>]/
-        const capitalLetterRegex = /[A-Z]/;
-        const smallLetterRegex = /[a-z]/;
-        const digitRegex = /[0-9]/
-
-        if (passwordValue.length < 5 || passwordValue.length > 8) {
-            newErrors.password = 'Password length must be between 5-8'
-        }
-        else if (!specialCharRegex.test(passwordValue)) {
-            newErrors.password = 'Password must contain at least one special character'
-        }
-        else if (!capitalLetterRegex.test(passwordValue)) {
-            newErrors.password = 'Password must contain at least one capital letter'
-        }
-        else if (!smallLetterRegex.test(passwordValue)) {
-            newErrors.password = 'Password must contain at least one small letter'
-        }
-        else if (!digitRegex.test(passwordValue)) {
-            newErrors.password = 'Password must contain at least one digit'
-        }
-        else {
-            setPassword(formData.get("password"))
-        }
         if (!signIn) {
+            passwordValidation(passwordValue, newErrors)
 
             if (formData.get("name").length < 5 || formData.get("name").length > 10) {
                 newErrors.name = 'Name length must be between 5-10'
