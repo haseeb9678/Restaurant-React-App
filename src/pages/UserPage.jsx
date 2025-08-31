@@ -23,10 +23,14 @@ const UserPage = () => {
     }
 
     return (
-        <section className='flex flex-col gap-5 h-[80vh]'>
-            <p className='text-lg md:text-xl'>Welcome <span className='font-bold'>{loggedUser.name}</span> </p>
+        <section className='flex flex-col gap-5 h-[80vh] overflow-x-scroll scrollbar-hide'>
+            <div className='flex flex-col'>
+                <p className='text-lg md:text-xl'>Welcome <span className='font-bold'>{loggedUser.name}</span> </p>
+                <p className='text-black/60'>{loggedUser.email}</p>
+            </div>
+
             <div className='flex w-full flex-1 '>
-                <div className='border border-r-0 border-black/10 overflow-hidden min-w-[150px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
+                <div className='border border-r-0 border-black/10 overflow-hidden min-w-[130px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
                     <div className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-max px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Dashboard</div>
 
                     <div
@@ -35,7 +39,7 @@ const UserPage = () => {
                     </div>
                 </div>
 
-                <div className='border border-black/10 w-full p-5'>
+                <div className='border border-black/10 w-full p-4 md:p-5 lg:pl-9'>
                     <div className='w-full'>
                         {
                             showPasswordChangeComp ? (
@@ -49,7 +53,7 @@ const UserPage = () => {
             </div>
             <button
                 onClick={handleLogOut}
-                className='cursor-pointer max-w-max bg-orange-500 text-white rounded-full px-2 text-nowrap py-1 md:px-6 hover:bg-orange-600'
+                className='cursor-pointer max-w-max bg-orange-500 text-white rounded-full px-4 text-nowrap py-1 md:px-6 hover:bg-orange-600'
             >Log out</button>
 
         </section>

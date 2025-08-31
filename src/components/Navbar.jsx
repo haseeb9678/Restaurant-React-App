@@ -9,7 +9,6 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { UserInfoContext } from '../contexts/userInfo';
 
 const Navbar = () => {
-    const [activePage, setActivePage] = useState('home')
     const { cartItems, orderItems } = useContext(FoodContext);
     const { loggedIn } = useContext(UserInfoContext)
     const navigate = useNavigate();
@@ -22,33 +21,38 @@ const Navbar = () => {
                     <li><NavLink to='/about' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>About</NavLink></li>
                     <li><NavLink to='/contact' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>Contact</NavLink></li>
                 </ul>
-                <div className='flex items-center gap-3 md:gap-5'>
+                <div className='flex items-center gap-2 md:gap-4'>
 
                     <div onClick={() => navigate('/order')} className='relative cursor-pointer'>
                         {
                             orderItems.length > 0 ? <p
                                 className='bg-orange-500 h-4.5 w-4.5 md:h-5 md:w-5
                                 rounded-full text-white text-sm flex items-center
-                                justify-center absolute  -top-1 left-3 md:-top-1 md:left-4'
+                                justify-center absolute  -top-1 left-4'
                             > {orderItems.length}</p> : null
                         }
 
-                        <PiBag className='text-2xl md:text-3xl' />
+                        <PiBag className='text-3xl' />
                     </div>
                     <div onClick={() => navigate('/cart')} className='relative cursor-pointer'>
                         {
                             cartItems.length > 0 ? <p
                                 className='bg-orange-500 h-4.5 w-4.5 md:h-5 md:w-5
                                 rounded-full text-white text-sm flex items-center
-                                justify-center   absolute -top-1 left-3 md:-top-1 md:left-4'
+                                justify-center   absolute -top-1 left-4'
                             > {cartItems.length}</p> : null
                         }
 
-                        <PiShoppingCart className='text-2xl md:text-3xl' />
+                        <PiShoppingCart className='text-3xl' />
                     </div>
 
                     {
-                        loggedIn ? <PiUserCircleLight onClick={() => navigate('/user')} className='text-2xl md:text-3xl' /> : <button
+                        loggedIn ? (
+                            <div className='flex flex-col cursor-pointer items-center justify-center mt-3 -ml-1 md:-ml-2 md:mt-4'>
+                                <PiUserCircleLight onClick={() => navigate('/user')} className='text-3xl' />
+                                <p className='text-[9px] md:text-[11px] text-black/90'>Haseeb Ali</p>
+                            </div>
+                        ) : <button
                             onClick={() => navigate('/auth')}
                             className='cursor-pointer bg-orange-500 text-white rounded-full px-2 text-nowrap py-1 md:px-6 hover:bg-orange-600'>Sign in</button>
                     }

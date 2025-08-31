@@ -50,6 +50,11 @@ export const InfoContextProvider = ({ children }) => {
         setLoggedIn(true)
     };
 
+    const updateUser = (newUser) => {
+        const newData = users.map((prev) => prev.id == newUser.id ? newUser : prev)
+        setUsers(newData)
+    }
+
     const findUser = (user) => {
         return users.find((prev) => prev.email == user.email && prev.password == user.password)
             || null
@@ -65,7 +70,8 @@ export const InfoContextProvider = ({ children }) => {
                 removeLoggedUser,
                 loggedIn,
                 setLoggedIn,
-                findUser
+                findUser,
+                updateUser
             }}
         >
             {children}
