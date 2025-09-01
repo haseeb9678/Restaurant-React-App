@@ -121,7 +121,7 @@ const Auth = () => {
                     email,
                     password,
                     ordersData: {
-                        checkouts: [],
+                        cart: [],
                         orders: []
                     }
                 }

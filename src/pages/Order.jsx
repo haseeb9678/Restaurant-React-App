@@ -1,19 +1,20 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { FoodContext } from '../contexts/foodData'
 import OrderItem from '../components/OrderItem';
+import { UserInfoContext } from '../contexts/userInfo';
 
 const Order = () => {
-    const { orderItems, setOrderItems } = useContext(FoodContext);
+    const { loggedUser, loggedIn } = useContext(UserInfoContext)
 
     return (
         <>
             <section className='px-5'>
                 <h2 className='font-bold text-3xl mb-6'>Order Items</h2>
                 {
-                    orderItems.length > 0 ? (
+                    loggedIn && loggedUser.ordersData.orders.length > 0 ? (
                         <div className='grid grid-cols-1 gap-2'>
                             {
-                                orderItems.map((order_item) => {
+                                loggedUser.ordersData.orders.map((order_item) => {
                                     return <OrderItem
                                         key={order_item.id}
                                         id={order_item.id}

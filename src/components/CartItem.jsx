@@ -1,24 +1,38 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FoodContext } from '../contexts/foodData'
+import { UserInfoContext } from '../contexts/userInfo'
 
 const CartItem = ({ id, item, totalPrice, quantity }) => {
-    const { orderItems, setOrderItems, cartItems, setCartItems } = useContext(FoodContext)
+    const { orderItems, addOrderItem, cartItems, removeCartItem } = useContext(FoodContext)
+    const { loggedIn, loggedUser, updateUser } = useContext(UserInfoContext)
+
     const handleCheckout = () => {
-        setOrderItems(prev => [...prev, {
-            id,
-            item,
-            totalPrice,
-            quantity,
-            status: 'processing'
-        }])
+        if (loggedIn) {
+            const newOrder = {
+                id,
+                item,
+                totalPrice,
+                quantity,
+                status: 'processing'
+            }
 
-        handleRemove()
+            // update FoodContext order state
+            addOrderItem(newOrder)
+
+            // update user data
+            const updatedUser = {
+                ...loggedUser,
+                ordersData: {
+                    cart: cartItems.filter(c => c.id !== id),
+                    orders: [...(loggedUser.ordersData?.orders || []), newOrder]
+                }
+            }
+
+            updateUser(updatedUser)
+            removeCartItem(id)
+        }
     }
 
-    const handleRemove = () => {
-        setCartItems(prev => prev.filter((p) => p.id != id))
-    }
-    console.log(orderItems);
 
     return (
         <div className="bg-gray-100/20 w-full mx-auto max-w-[1300px] p-4 border border-black/10 rounded-md flex flex-col md:flex-row gap-4 md:gap-3 items-start md:items-center">
@@ -53,7 +67,7 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
                 <button onClick={handleCheckout} className="flex-1 md:flex-none px-3 py-2 bg-green-500 text-white text-center rounded-lg text-sm hover:bg-green-600">
                     Checkout
                 </button>
-                <button onClick={handleRemove} className="flex-1 md:flex-none px-3 py-2 bg-red-500 text-white text-center rounded-lg text-sm hover:bg-red-600">
+                <button onClick={() => removeCartItem(id)} className="flex-1 md:flex-none px-3 py-2 bg-red-500 text-white text-center rounded-lg text-sm hover:bg-red-600">
                     Remove
                 </button>
             </div>

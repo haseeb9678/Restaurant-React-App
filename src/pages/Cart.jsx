@@ -1,20 +1,20 @@
-import React, { useContext } from 'react'
-import { FoodContext } from '../contexts/foodData'
+import React, { useContext, useEffect, useState } from 'react'
 import CartItem from '../components/CartItem';
+import { UserInfoContext } from '../contexts/userInfo';
 
 const Cart = () => {
-    const { cartItems, setCartItems } = useContext(FoodContext);
-    console.log(cartItems);
+
+    const { loggedUser, loggedIn } = useContext(UserInfoContext)
 
     return (
         <>
             <section className='px-5'>
                 <h2 className='font-bold text-3xl mb-6'>Cart</h2>
                 {
-                    cartItems.length > 0 ? (
+                    loggedIn && loggedUser.ordersData.cart.length > 0 ? (
                         <div className='grid grid-cols-1 gap-2'>
                             {
-                                cartItems.map((cart_item) => {
+                                loggedUser.ordersData.cart.map((cart_item) => {
                                     return <CartItem
                                         key={cart_item.id}
                                         id={cart_item.id}

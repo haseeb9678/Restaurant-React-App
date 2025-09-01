@@ -9,8 +9,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { UserInfoContext } from '../contexts/userInfo';
 
 const Navbar = () => {
-    const { cartItems, orderItems } = useContext(FoodContext);
-    const { loggedIn } = useContext(UserInfoContext)
+    const { loggedIn, loggedUser } = useContext(UserInfoContext)
     const navigate = useNavigate();
     return (
         <nav className='w-full h-20 mb-3 flex items-center px-4 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
@@ -25,22 +24,22 @@ const Navbar = () => {
 
                     <div onClick={() => navigate('/order')} className='relative cursor-pointer'>
                         {
-                            orderItems.length > 0 ? <p
+                            loggedIn && loggedUser.ordersData.orders.length > 0 ? <p
                                 className='bg-orange-500 h-4.5 w-4.5 md:h-5 md:w-5
                                 rounded-full text-white text-sm flex items-center
                                 justify-center absolute  -top-1 left-4'
-                            > {orderItems.length}</p> : null
+                            > {loggedUser.ordersData.orders.length}</p> : null
                         }
 
                         <PiBag className='text-3xl' />
                     </div>
                     <div onClick={() => navigate('/cart')} className='relative cursor-pointer'>
                         {
-                            cartItems.length > 0 ? <p
+                            loggedIn && loggedUser.ordersData.cart.length > 0 ? <p
                                 className='bg-orange-500 h-4.5 w-4.5 md:h-5 md:w-5
                                 rounded-full text-white text-sm flex items-center
                                 justify-center   absolute -top-1 left-4'
-                            > {cartItems.length}</p> : null
+                            > {loggedUser.ordersData.cart.length}</p> : null
                         }
 
                         <PiShoppingCart className='text-3xl' />
@@ -50,7 +49,7 @@ const Navbar = () => {
                         loggedIn ? (
                             <div className='flex flex-col cursor-pointer items-center justify-center mt-3 -ml-1 md:-ml-2 md:mt-4'>
                                 <PiUserCircleLight onClick={() => navigate('/user')} className='text-3xl' />
-                                <p className='text-[9px] md:text-[11px] text-black/90'>Haseeb Ali</p>
+                                <p className='text-[9px] md:text-[11px] text-black/90'>{loggedUser.name}</p>
                             </div>
                         ) : <button
                             onClick={() => navigate('/auth')}

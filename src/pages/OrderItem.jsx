@@ -4,6 +4,7 @@ import { assets } from '../assets/frontend_assets/assets';
 import { PiShoppingCart } from "react-icons/pi";
 import { FoodContext } from '../contexts/foodData';
 import RelatedItems from '../components/RelatedItems';
+import { UserInfoContext } from '../contexts/userInfo';
 
 const OrderItem = () => {
     const [item, setItem] = useState(null);
@@ -11,8 +12,10 @@ const OrderItem = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const location = useLocation();
     const [warn, setWarn] = useState(false);
+    const [warnMsg, setWarnMsg] = useState('')
 
-    const { cartItems, setCartItems } = useContext(FoodContext);
+    const { cartItems, addCartItem } = useContext(FoodContext);
+    const { loggedIn, loggedUser, updateUser } = useContext(UserInfoContext)
 
     useEffect(() => {
         setItem(location.state || null);
@@ -55,21 +58,52 @@ const OrderItem = () => {
         }
     }
 
-    const handleCart = () => {
-        if (quantity > 0) {
-            setCartItems(prev => [...prev, {
-                id: Date.now(),
-                item: item,
-                quantity: quantity,
-                totalPrice: totalPrice
-            }])
+    useEffect(() => {
+        if (loggedIn) {
+            const updatedUser = {
+                ...loggedUser, ordersData: {
+                    cart: cartItems,
+                    orders: loggedUser.ordersData.orders
+                }
+            }
+            console.log('update data after add: ', updatedUser);
+            updateUser(updatedUser)
+        }
 
-            setQuantity(0);
-            setTotalPrice(0);
+    }, [cartItems])
+
+    const handleCart = () => {
+        if (loggedIn) {
+            if (quantity > 0) {
+                const newItem = {
+                    id: Date.now(),
+                    item: item,
+                    quantity: quantity,
+                    totalPrice: totalPrice
+                }
+
+                addCartItem(newItem)
+                setQuantity(0);
+                setTotalPrice(0);
+            } else {
+                if (!warn) {
+                    toogleWarn();
+                    setWarnMsg("Please select quantity*")
+                }
+            }
         } else {
-            if (!warn) toogleWarn();
+            if (!warn) {
+                toogleWarn()
+                setWarnMsg("Please sign-in first")
+            }
         }
     }
+
+    useEffect(() => {
+        if (!warn) {
+            setWarnMsg('')
+        }
+    }, [warn])
 
 
     if (!item) {
@@ -125,7 +159,7 @@ const OrderItem = () => {
                     </div>
                     <p className='text-red-500 text-end text-sm h-3 mb-2'>
                         {
-                            warn ? 'Please select quantity*' : null
+                            warn ? warnMsg : null
                         }
                     </p>
                     <button

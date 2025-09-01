@@ -51,8 +51,12 @@ export const InfoContextProvider = ({ children }) => {
     };
 
     const updateUser = (newUser) => {
-        const newData = users.map((prev) => prev.id == newUser.id ? newUser : prev)
-        setUsers(newData)
+        setUsers((prev) =>
+            prev.map((u) => u.id === newUser.id ? newUser : u)
+        );
+        if (loggedIn && newUser.id == loggedUser.id) {
+            setLoggedUser(newUser)
+        }
     }
 
     const findUser = (user) => {
