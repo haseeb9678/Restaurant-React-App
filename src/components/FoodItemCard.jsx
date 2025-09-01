@@ -4,12 +4,28 @@ import { useNavigate } from 'react-router-dom'
 
 const FoodItemCard = ({ item }) => {
 
+
     const navigate = useNavigate()
+    const [click, setClick] = React.useState(false)
+
+    const toogleClick = () => {
+        setClick(prev => !prev)
+    }
+
+    React.useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }, [click])
 
     return (
         <div
             className='flex flex-col min-w-50 max-w-95 cursor-pointer hover:bg-gray-300/30 transform hover:scale-102 transition duration-300  bg-gray-300/5 shadow-xl rounded-sm my-2 pb-3 md:max-w-100 lg:max-w-85'
-            onClick={() => navigate('/orderItem', { state: item })}
+            onClick={() => {
+                navigate('/orderItem', { state: item })
+                toogleClick()
+            }}
         >
 
             <div className='h-[70%] overflow-hidden'>

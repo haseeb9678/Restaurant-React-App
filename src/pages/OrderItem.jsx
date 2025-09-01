@@ -17,6 +17,7 @@ const OrderItem = () => {
     const { cartItems, addCartItem } = useContext(FoodContext);
     const { loggedIn, loggedUser, updateUser } = useContext(UserInfoContext)
 
+
     useEffect(() => {
         setItem(location.state || null);
     }, [location.state]);

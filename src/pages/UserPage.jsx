@@ -5,8 +5,22 @@ import ChangePassword from '../components/ChangePassword'
 
 const UserPage = () => {
     const { loggedUser, removeLoggedUser } = useContext(UserInfoContext)
+    const { cartItems, orderItems, setCartItems, setOrderItems } = useContext(UserInfoContext)
     const [showPasswordChangeComp, setShowPasswordChangeComp] = useState(false)
     const navigate = useNavigate()
+
+    React.useEffect(() => {
+        if (!loggedUser) {
+            navigate('/')
+        }
+    }, [loggedUser])
+
+    React.useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }, [])
 
     const tooglePasswordChangeComp = () => {
         setShowPasswordChangeComp(prev => !prev)
@@ -14,9 +28,10 @@ const UserPage = () => {
 
     const handleLogOut = () => {
         removeLoggedUser()
+        setCartItems([])
+        setOrderItems([])
         localStorage.removeItem("cartItems")
         localStorage.removeItem("orderItems")
-        navigate('/')
     }
     console.log(loggedUser);
 
