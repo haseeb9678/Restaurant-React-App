@@ -26,7 +26,7 @@ const Cart = () => {
                             }
                         </div>
                     ) : (<>
-                        <h2 className='text-sm'>Cart is Empty</h2>
+                        <h2 className='text-sm'>Cart is Empty.</h2>
                     </>)
                 }
             </section>
