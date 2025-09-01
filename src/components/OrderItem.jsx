@@ -15,18 +15,19 @@ const OrderItem = ({ id, item, totalPrice, quantity, status }) => {
                 <table className="w-full text-sm">
                     <thead>
                         <tr className="text-black/50">
-                            <td className="px-1">Item</td>
-                            <td className="px-1">Qty</td>
-                            <td className="px-1">Amount</td>
-                            <td className="px-1">Status</td>
+                            <td className="px-1 w-60">Item</td>
+                            <td className="px-1 w-max">Qty</td>
+                            <td className="px-1 w-max">Amount</td>
+                            <td className="px-1 w-max">Status</td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td className="px-1 font-semibold max-w-25">{item.name}</td>
-                            <td className="px-1">x{quantity}</td>
-                            <td className="px-1">${totalPrice}</td>
-                            <td className="px-1 py-1"> <span className='bg-red-500 text-white px-2 md:px-3 py-1 rounded-md'>{status}</span></td>
+                            <td className="px-1 w-max">x{quantity}</td>
+                            <td className="px-1 w-max">${totalPrice}</td>
+                            <td className="px-1 py-1 w-max">
+                                <span className={` ${status == 'processed' && "bg-green-500"} ${status == 'processing' && "bg-gray-500"} ${status == 'cancelled' && "bg-red-500"} text-white px-2 md:px-3 py-1 rounded-md`}>{status}</span></td>
                         </tr>
                     </tbody>
                 </table>

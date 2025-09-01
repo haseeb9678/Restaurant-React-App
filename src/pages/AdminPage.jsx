@@ -3,17 +3,23 @@ import { UserInfoContext } from '../contexts/userInfo'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { AdminInfoContext } from '../contexts/adminInfo'
 import ShowUsersTable from '../components/ShowUsersTable'
+import AdminOrderRecords from '../components/AdminOrderRecords'
+import AdminFoodItems from '../components/AdminFoodItems'
 
 const AdminPage = () => {
     const { users } = useContext(UserInfoContext)
     const { loggedIn, admin, removeLoggedAdmin } = useContext(AdminInfoContext)
-    const [showUsers, setShowUsers] = useState(false)
+    const [show, setShow] = useState("table")
     const { setHideNav } = useOutletContext()
     const navigate = useNavigate()
     useEffect(() => {
         setHideNav(true)
         return () => setHideNav(false)
     }, [])
+
+    const toogleShow = (value) => {
+        setShow(value)
+    }
 
     if (!loggedIn) {
         return <section className='flex flex-col gap-5 h-[80vh] overflow-x-scroll scrollbar-hide'>
@@ -38,27 +44,38 @@ const AdminPage = () => {
             </div>
 
             <div className='flex w-full flex-1 '>
-                <div className='border border-r-0 border-black/10 overflow-hidden min-w-[130px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
-                    <div className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Dashboard</div>
+                <div className='border border-r-0 border-black/30 overflow-hidden min-w-[130px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
+
 
                     <div
-                        onClick={() => setShowUsers(true)}
+                        onClick={() => toogleShow("table")}
                         className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Users
                     </div>
                     <div
+                        onClick={() => toogleShow("orderRecords")}
                         className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Orders
                     </div>
                     <div
-                        className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Change Password
+                        onClick={() => toogleShow("items")}
+                        className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Food Items
                     </div>
+
                 </div>
 
-                <div className='border border-black/10 w-full p-4 md:p-5 lg:pl-9'>
-                    <div className='w-full'>
+                <div className='border border-black/30 w-full p-4 md:p-5 lg:pl-9'>
+                    <div className='w-full py-9'>
                         {
-                            showUsers ? (
+                            show == 'table' ? (
                                 <ShowUsersTable />
-                            ) : null
+                            ) : (
+                                show == 'orderRecords' ? (
+                                    <AdminOrderRecords />
+                                ) : (
+                                    show == 'items' ? (
+                                        <AdminFoodItems />
+                                    ) : null
+                                )
+                            )
                         }
                     </div>
 

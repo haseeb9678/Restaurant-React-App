@@ -6,7 +6,7 @@ import { PiEyeLight } from "react-icons/pi";
 import { AdminInfoContext } from '../contexts/adminInfo';
 
 const Auth = () => {
-    const { users, addUsers, loggedUser, addLoggedUser, findUser } = useContext(UserInfoContext)
+    const { users, addUsers, loggedUser, logInUser, findUser } = useContext(UserInfoContext)
     const { admin, checkAdminValidity, addLoggedAdmin } = useContext(AdminInfoContext)
     const [signIn, setSignIn] = useState(true)
     const [passwordHide, setPasswordHide] = useState(true)
@@ -104,12 +104,10 @@ const Auth = () => {
 
         setErrors(newErrors)
 
-
-
         if (signIn && Object.keys(newErrors).length == 0) {
             const userData = findUser({ email, password })
             if (userData) {
-                addLoggedUser({ email, password })
+                logInUser(userData.id)
                 navigate('/')
             } else if (checkAdminValidity({ email, password })) {
                 addLoggedAdmin()
@@ -126,6 +124,7 @@ const Auth = () => {
                     name,
                     email,
                     password,
+                    loggedIn: true,
                     ordersData: {
                         cart: [],
                         orders: []

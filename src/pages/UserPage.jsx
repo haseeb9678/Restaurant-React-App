@@ -47,7 +47,7 @@ const UserPage = () => {
             </div>
 
             <div className='flex w-full flex-1 '>
-                <div className='border border-r-0 border-black/10 overflow-hidden min-w-[130px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
+                <div className='border border-r-0 border-black/30 overflow-hidden min-w-[130px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
                     <div className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-max px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Dashboard</div>
 
                     <div
@@ -56,8 +56,8 @@ const UserPage = () => {
                     </div>
                 </div>
 
-                <div className='border border-black/10 w-full p-4 md:p-5 lg:pl-9'>
-                    <div className='w-full'>
+                <div className='border border-black/30 w-full p-4 md:p-5 lg:pl-9'>
+                    <div className='w-full py-9'>
                         {
                             showPasswordChangeComp ? (
                                 <ChangePassword />

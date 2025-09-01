@@ -11,6 +11,9 @@ import { UserInfoContext } from '../contexts/userInfo';
 const Navbar = () => {
     const { loggedIn, loggedUser } = useContext(UserInfoContext)
     const navigate = useNavigate();
+    console.log("log status: ", loggedIn, " logged user in nav: ", loggedUser);
+
+
     return (
         <nav className='w-full h-20 mb-3 flex items-center px-4 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
             <div className='w-full flex items-center justify-between '>
