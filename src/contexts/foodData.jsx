@@ -51,9 +51,11 @@ export const FoodContextProvider = ({ children }) => {
             orderItems,
             addOrderItem,
             removeOrderItem,
+            setOrderItems,
             cartItems,
             addCartItem,
-            removeCartItem
+            removeCartItem,
+            setCartItems
         }}>
             {children}
         </FoodContext.Provider>

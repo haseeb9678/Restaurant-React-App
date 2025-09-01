@@ -22,6 +22,9 @@ export const InfoContextProvider = ({ children }) => {
 
     useEffect(() => {
         localStorage.setItem("users", JSON.stringify(users));
+        if (!users) {
+            setLoggedUser(null)
+        }
     }, [users]);
 
     useEffect(() => {
@@ -31,6 +34,10 @@ export const InfoContextProvider = ({ children }) => {
             setLoggedIn(false)
         }
     }, [loggedUser])
+
+    const clearAllUsers = () => {
+        setUsers([])
+    }
 
     const addLoggedUser = (newUser) => {
         const found = findUser(newUser)
@@ -52,9 +59,8 @@ export const InfoContextProvider = ({ children }) => {
     };
 
     const updateUser = (newUser) => {
-        setUsers((prev) =>
-            prev.map((u) => u.id === newUser.id ? newUser : u)
-        );
+        setUsers(prev => prev.map((p) => p.id === newUser.id ? newUser : p))
+
         if (loggedIn && newUser.id == loggedUser.id) {
             setLoggedUser(newUser)
         }
@@ -76,7 +82,8 @@ export const InfoContextProvider = ({ children }) => {
                 loggedIn,
                 setLoggedIn,
                 findUser,
-                updateUser
+                updateUser,
+                clearAllUsers
             }}
         >
             {children}

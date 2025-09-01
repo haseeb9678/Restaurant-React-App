@@ -3,9 +3,11 @@ import { UserInfoContext } from '../contexts/userInfo'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { PiEyeSlash } from "react-icons/pi";
 import { PiEyeLight } from "react-icons/pi";
+import { AdminInfoContext } from '../contexts/adminInfo';
 
 const Auth = () => {
     const { users, addUsers, loggedUser, addLoggedUser, findUser } = useContext(UserInfoContext)
+    const { admin, checkAdminValidity, addLoggedAdmin } = useContext(AdminInfoContext)
     const [signIn, setSignIn] = useState(true)
     const [passwordHide, setPasswordHide] = useState(true)
     const [name, setName] = useState('')
@@ -102,21 +104,25 @@ const Auth = () => {
 
         setErrors(newErrors)
 
+
+
         if (signIn && Object.keys(newErrors).length == 0) {
             const userData = findUser({ email, password })
             if (userData) {
-                console.log('correct pass or name');
                 addLoggedUser({ email, password })
                 navigate('/')
+            } else if (checkAdminValidity({ email, password })) {
+                addLoggedAdmin()
+                navigate('/admin')
             } else {
-                setInvalidWarn(prev => ({ status: true, message: "invalid email or password" }))
+                setInvalidWarn(prev => ({ status: true, message: "Invalid email or password entered" }))
             }
         }
 
         if (!signIn && Object.keys(newErrors).length == 0) {
             if (checkValiditySignUp()) {
                 const newUser = {
-                    userID: Date.now(),
+                    id: Date.now(),
                     name,
                     email,
                     password,

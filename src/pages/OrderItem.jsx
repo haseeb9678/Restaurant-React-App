@@ -14,13 +14,17 @@ const OrderItem = () => {
     const [warn, setWarn] = useState(false);
     const [warnMsg, setWarnMsg] = useState('')
 
-    const { cartItems, addCartItem } = useContext(FoodContext);
+    const { cartItems, addCartItem, setCartItems, setOrderItems } = useContext(FoodContext);
     const { loggedIn, loggedUser, updateUser } = useContext(UserInfoContext)
-
 
     useEffect(() => {
         setItem(location.state || null);
     }, [location.state]);
+
+    useEffect(() => {
+        setCartItems(prev => [])
+        setOrderItems(prev => [])
+    }, [])
 
     useEffect(() => {
         setQuantity(0);
@@ -59,19 +63,6 @@ const OrderItem = () => {
         }
     }
 
-    useEffect(() => {
-        if (loggedIn) {
-            const updatedUser = {
-                ...loggedUser, ordersData: {
-                    cart: cartItems,
-                    orders: loggedUser.ordersData.orders
-                }
-            }
-            console.log('update data after add: ', updatedUser);
-            updateUser(updatedUser)
-        }
-
-    }, [cartItems])
 
     const handleCart = () => {
         if (loggedIn) {
@@ -83,7 +74,20 @@ const OrderItem = () => {
                     totalPrice: totalPrice
                 }
 
-                addCartItem(newItem)
+                addCartItem(newItem);
+
+                const updatedUser = {
+                    ...loggedUser,
+                    ordersData: {
+                        cart: [...(loggedUser.ordersData?.cart || []), newItem],
+                        orders: loggedUser.ordersData.orders
+                    }
+                };
+
+                updateUser(updatedUser);
+                console.log('runs');
+
+
                 setQuantity(0);
                 setTotalPrice(0);
             } else {

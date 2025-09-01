@@ -28,8 +28,8 @@ const UserPage = () => {
 
     const handleLogOut = () => {
         removeLoggedUser()
-        setCartItems([])
-        setOrderItems([])
+        setCartItems(prev => [])
+        setOrderItems(prev => [])
         localStorage.removeItem("cartItems")
         localStorage.removeItem("orderItems")
     }

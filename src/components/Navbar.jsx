@@ -20,7 +20,7 @@ const Navbar = () => {
                     <li><NavLink to='/about' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>About</NavLink></li>
                     <li><NavLink to='/contact' className={({ isActive }) => isActive ? 'border-b-2 border-orange-500 ' : 'hover:text-orange-500'}>Contact</NavLink></li>
                 </ul>
-                <div className='flex items-center gap-2 md:gap-4'>
+                <div className='flex items-center gap-4 md:gap-5'>
 
                     <div onClick={() => navigate('/order')} className='relative cursor-pointer'>
                         {
