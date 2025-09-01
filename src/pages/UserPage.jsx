@@ -14,6 +14,8 @@ const UserPage = () => {
 
     const handleLogOut = () => {
         removeLoggedUser()
+        localStorage.removeItem("cartItems")
+        localStorage.removeItem("orderItems")
         navigate('/')
     }
     console.log(loggedUser);
