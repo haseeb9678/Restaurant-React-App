@@ -8,7 +8,7 @@ const Cart = () => {
 
     return (
         <>
-            <section className='px-5'>
+            <section className='px-2'>
                 <h2 className='font-bold text-3xl mb-6'>Cart</h2>
                 {
                     loggedIn && loggedUser.ordersData.cart.length > 0 ? (

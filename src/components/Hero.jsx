@@ -11,9 +11,19 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 
+
+
 const Hero = () => {
+    const scrollIntoCategory = () => {
+        const section = document.getElementById("category");
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+        }
+    }
     return (
-        <header className='h-[37vh] w-full md:h-[42vh] lg:h-[50vh]'>
+        <header
+            onClick={scrollIntoCategory}
+            className='h-[37vh] w-full md:h-[42vh] lg:h-[50vh]'>
             <Swiper
                 modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
                 spaceBetween={50}

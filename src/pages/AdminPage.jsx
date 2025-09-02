@@ -5,6 +5,7 @@ import { AdminInfoContext } from '../contexts/adminInfo'
 import ShowUsersTable from '../components/ShowUsersTable'
 import AdminOrderRecords from '../components/AdminOrderRecords'
 import AdminFoodItems from '../components/AdminFoodItems'
+import { toast } from 'react-toastify'
 
 const AdminPage = () => {
     const { users } = useContext(UserInfoContext)
@@ -32,6 +33,7 @@ const AdminPage = () => {
 
     const handleLogOut = () => {
         removeLoggedAdmin()
+        toast.success("Logged out successfully 👋");
         navigate('/')
     }
 

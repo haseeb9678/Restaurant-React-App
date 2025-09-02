@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { UserInfoContext } from '../contexts/userInfo'
+import { toast } from 'react-toastify'
 
 const ShowUsersTable = () => {
     const { users, activeOrders, clearAllUsers } = useContext(UserInfoContext)
@@ -51,7 +52,10 @@ const ShowUsersTable = () => {
             </table>
             <div>
                 <button
-                    onClick={clearAllUsers}
+                    onClick={() => {
+                        clearAllUsers()
+                        toast.success("All user data is cleared");
+                    }}
                     className='cursor-pointer max-w-max bg-orange-500 text-white rounded-full px-4 text-nowrap py-1 md:px-6 hover:bg-orange-600'
                 >Clear All users Data</button>
             </div>

@@ -15,7 +15,7 @@ const Category = () => {
     };
 
     return (
-        <>
+        <section id='category' className="scroll-mt-20">
             <h2 className='font-bold text-2xl'>Food Categories</h2>
             <p className="text-gray-600 mb-4">
                 Explore a variety of delicious options – from quick snacks to full meals,
@@ -47,7 +47,7 @@ const Category = () => {
                 ))}
             </section>
             <hr className='border-black/20 border-t-2' />
-        </>
+        </section>
     )
 }
 

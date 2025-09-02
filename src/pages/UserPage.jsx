@@ -3,6 +3,7 @@ import { UserInfoContext } from '../contexts/userInfo'
 import { useNavigate } from 'react-router-dom'
 import ChangePassword from '../components/ChangePassword'
 import UserDashboard from '../components/UserDashboard'
+import { toast } from 'react-toastify'
 
 const UserPage = () => {
     const { loggedUser, removeLoggedUser } = useContext(UserInfoContext)
@@ -30,6 +31,7 @@ const UserPage = () => {
 
     const handleLogOut = () => {
         removeLoggedUser()
+        toast.success("Logged out successfully 👋");
         setCartItems(prev => [])
         setOrderItems(prev => [])
         localStorage.removeItem("cartItems")

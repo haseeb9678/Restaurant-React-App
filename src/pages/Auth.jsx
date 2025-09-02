@@ -4,6 +4,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom'
 import { PiEyeSlash } from "react-icons/pi";
 import { PiEyeLight } from "react-icons/pi";
 import { AdminInfoContext } from '../contexts/adminInfo';
+import { toast } from 'react-toastify'
 
 const Auth = () => {
     const { users, addUsers, loggedUser, logInUser, findUser } = useContext(UserInfoContext)
@@ -108,12 +109,16 @@ const Auth = () => {
             const userData = findUser({ email, password })
             if (userData) {
                 logInUser(userData.id)
+                toast.success("Signed in successfully 🎉")
                 navigate('/')
             } else if (checkAdminValidity({ email, password })) {
                 addLoggedAdmin()
+                toast.success("Welcome Admin 🎉")
                 navigate('/admin')
             } else {
                 setInvalidWarn(prev => ({ status: true, message: "Invalid email or password entered" }))
+                toast.error("Invalid email or password ❌")  // ❌ error toast
+
             }
         }
 
@@ -131,9 +136,11 @@ const Auth = () => {
                     }
                 }
                 addUsers(newUser)
+                toast.success("Account created successfully 🎉")
                 navigate('/')
             } else {
                 setInvalidWarn({ status: true, message: "user with email already exists" })
+                toast.error("User with email already exists ❌")
             }
         }
 

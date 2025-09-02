@@ -8,7 +8,7 @@ const Order = () => {
 
     return (
         <>
-            <section className='px-5'>
+            <section className='px-2'>
                 <h2 className='font-bold text-3xl mb-6'>Order Items</h2>
                 {
                     loggedIn && loggedUser.ordersData.orders.length > 0 ? (

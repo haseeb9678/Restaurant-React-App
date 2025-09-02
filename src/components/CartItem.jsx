@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react'
 import { FoodContext } from '../contexts/foodData'
 import { UserInfoContext } from '../contexts/userInfo'
+import { toast } from 'react-toastify'
 
 const CartItem = ({ id, item, totalPrice, quantity }) => {
-    const { orderItems, addOrderItem, cartItems, removeCartItem } = useContext(FoodContext)
+    const { addOrderItem, cartItems, removeCartItem } = useContext(FoodContext)
     const { loggedIn, loggedUser, updateUser } = useContext(UserInfoContext)
 
     const handleCheckout = () => {
@@ -30,7 +31,30 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
 
             updateUser(updatedUser)
             removeCartItem(id)
+            toast.success(
+                <span>
+                    Item <span className="font-bold text-green-600">{item.name}</span> checked out 🛒
+                </span>
+            );
         }
+    }
+
+    const handleRemove = () => {
+        removeCartItem(id)
+        const updatedUser = {
+            ...loggedUser,
+            ordersData: {
+                ...loggedUser.ordersData,
+                cart: loggedUser.ordersData.cart.filter(c => c.id !== id)
+            }
+        };
+
+        updateUser(updatedUser);
+        toast.success(
+            <span>
+                Item <span className="font-bold text-green-600">{item.name}</span> removed ❌
+            </span>
+        );
     }
 
 
@@ -64,10 +88,10 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
             </div>
 
             <div className="flex gap-3 w-full md:w-auto mt-3 md:mt-0">
-                <button onClick={handleCheckout} className="flex-1 md:flex-none px-3 py-2 bg-green-500 text-white text-center rounded-lg text-sm hover:bg-green-600">
+                <button onClick={handleCheckout} className="flex-1 cursor-pointer md:flex-none px-3 py-2 bg-green-500 text-white text-center rounded-lg text-sm hover:bg-green-600">
                     Checkout
                 </button>
-                <button onClick={() => removeCartItem(id)} className="flex-1 md:flex-none px-3 py-2 bg-red-500 text-white text-center rounded-lg text-sm hover:bg-red-600">
+                <button onClick={handleRemove} className="flex-1 cursor-pointer md:flex-none px-3 py-2 bg-red-500 text-white text-center rounded-lg text-sm hover:bg-red-600">
                     Remove
                 </button>
             </div>

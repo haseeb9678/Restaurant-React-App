@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { UserInfoContext } from "../contexts/userInfo";
+import { toast } from "react-toastify";
 
 const AdminOrderRecords = () => {
     const { users, updateUser } = useContext(UserInfoContext);
@@ -67,6 +68,11 @@ const AdminOrderRecords = () => {
                                                     };
 
                                                     updateUser(updatedUser);
+                                                    toast.success(
+                                                        <span>
+                                                            Order <span className="font-bold text-green-600">{order.item.name}</span> processed
+                                                        </span>
+                                                    );
                                                 }}
                                                 className="bg-green-500 hover:bg-green-600 cursor-pointer text-white px-2 py-1 rounded-md"
                                             >
@@ -91,6 +97,11 @@ const AdminOrderRecords = () => {
                                                     };
 
                                                     updateUser(updatedUser);
+                                                    toast.success(
+                                                        <span>
+                                                            Order <span className="font-bold text-red-600">{order.item.name}</span> cancelled
+                                                        </span>
+                                                    );
                                                 }}
                                                 className="bg-red-500 hover:bg-red-600 cursor-pointer text-white px-2 py-1 rounded-md">
                                                 Cancel

@@ -1,5 +1,7 @@
 import React from 'react'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 // Example Components
 import Home from './pages/Home'
@@ -30,7 +32,10 @@ const App = () => {
   )
 
   return (
-    <RouterProvider router={router} />
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <RouterProvider router={router} />
+    </>
   )
 }
 
