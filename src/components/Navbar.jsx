@@ -10,7 +10,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     return (
-        <nav className='w-full h-20 mb-3 flex items-center px-4 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
+        <nav className='w-full h-20 mb-3 flex items-center px-4 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50 overflow-hidden'>
             <div className='w-full flex items-center justify-between'>
                 <img
                     onClick={() => navigate('/')}
