@@ -12,8 +12,10 @@ const AdminOrderRecords = () => {
                 <thead>
                     <tr className="font-bold w-full bg-black/5">
                         <th className="border border-black/15 px-2 py-1">Item Image</th>
+                        <th className="border border-black/15 px-2 py-1">Order ID</th>
                         <th className="border border-black/15 px-2 py-1">Item ID</th>
                         <th className="border border-black/15 px-2 py-1">Item Name</th>
+                        <th className="border border-black/15 px-2 py-1">Category</th>
                         <th className="border border-black/15 px-2 py-1">Qty</th>
                         <th className="border border-black/15 px-2 py-1">Price</th>
                         <th className="border border-black/15 px-2 py-1">User Email</th>
@@ -36,10 +38,16 @@ const AdminOrderRecords = () => {
                                             />
                                         </td>
                                         <td className="border font-semibold border-black/15 px-2 py-1">
+                                            {order.id}
+                                        </td>
+                                        <td className="border font-semibold border-black/15 px-2 py-1">
                                             {order.item.id}
                                         </td>
                                         <td className="border border-black/15 px-2 py-1">
                                             {order.item.name}
+                                        </td>
+                                        <td className="border border-black/15 px-2 py-1">
+                                            {order.item.category}
                                         </td>
                                         <td className="border border-black/15 px-2 py-1">
                                             x{order.quantity}

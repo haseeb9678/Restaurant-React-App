@@ -34,7 +34,7 @@ const Hero = () => {
                 className='h-full w-full'
             >
                 {header_assets.map((image, index) => (
-                    <SwiperSlide key={index} className='h-full w-full'>
+                    <SwiperSlide key={index} className='h-full w-full cursor-pointer'>
                         <img
                             className='h-full w-full object-cover'
                             src={image}

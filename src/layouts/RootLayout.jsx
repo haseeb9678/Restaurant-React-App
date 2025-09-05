@@ -11,9 +11,16 @@ const RootLayout = () => {
     return (
         <div className='flex flex-col min-h-screen'>
             {!hideNav ? <Navbar /> : (
-                <nav className='w-full h-20 mb-3 flex items-center px-4 md:px-7 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50'>
-                    <div className='w-full flex items-center justify-start overflow-hidden '>
-                        <img onClick={() => navigate('/')} src={RestaurantLogo} alt='Restaurnt Logo' className='pt-4 -ml-5 w-47 h-47 cursor-pointer overflow-hidden' />
+                <nav className='w-full h-20 mb-3 flex items-center px-2 shadow-sm/5 bg-white/90 sticky top-0 backdrop-blur-md z-50 overflow-hidden'>
+                    <div className='w-full flex items-center justify-between overflow-hidden'>
+                        <div className='overflow-hidden'>
+                            <img
+                                onClick={() => navigate('/')}
+                                src={RestaurantLogo}
+                                alt='Restaurant Logo'
+                                className=' pt-4 w-47 cursor-pointer object-cover'
+                            />
+                        </div>
                     </div>
                 </nav>
             )}

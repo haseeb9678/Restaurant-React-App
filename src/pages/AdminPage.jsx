@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { UserInfoContext } from '../contexts/userInfo'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { AdminInfoContext } from '../contexts/adminInfo'
 import ShowUsersTable from '../components/ShowUsersTable'
@@ -8,7 +7,6 @@ import AdminFoodItems from '../components/AdminFoodItems'
 import { toast } from 'react-toastify'
 
 const AdminPage = () => {
-    const { users } = useContext(UserInfoContext)
     const { loggedIn, admin, removeLoggedAdmin } = useContext(AdminInfoContext)
     const [show, setShow] = useState("table")
     const { setHideNav } = useOutletContext()
@@ -23,7 +21,7 @@ const AdminPage = () => {
     }
 
     if (!loggedIn) {
-        return <section className='flex flex-col gap-5 h-[80vh] overflow-x-scroll scrollbar-hide'>
+        return <section className='flex flex-col gap-5 h-[80vh]'>
             <h2 className='font-bold text-xl md:text-2xl'>ADMIN PANEL</h2>
             <div className='flex flex-col'>
                 <p className='text-base md:text-xl'>Admin Data not found</p>
@@ -38,17 +36,15 @@ const AdminPage = () => {
     }
 
     return (
-        <section className='flex flex-col gap-5 h-[80vh] overflow-x-scroll scrollbar-hide'>
+        <section className='flex flex-col gap-5 h-[80vh] overflow-scroll scrollbar-hide'>
             <h2 className='font-bold text-xl md:text-2xl'>ADMIN PANEL</h2>
             <div className='flex flex-col'>
                 <p className='text-lg md:text-xl'>Welcome <span className='font-bold'>{admin.name}</span> </p>
                 <p className='text-black/60'>{admin.email}</p>
             </div>
 
-            <div className='flex w-full flex-1 '>
+            <div className='flex w-full flex-1'>
                 <div className='border border-r-0 border-black/30 overflow-hidden min-w-[130px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
-
-
                     <div
                         onClick={() => toogleShow("table")}
                         className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Users

@@ -88,7 +88,6 @@ const OrderItem = () => {
                 updateUser(updatedUser);
                 console.log('runs');
 
-
                 setQuantity(0);
                 setTotalPrice(0);
             } else {
@@ -174,6 +173,10 @@ const OrderItem = () => {
                         className="mt-auto cursor-pointer bg-orange-500 flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl hover:bg-orange-600">
                         <span >Add to Cart</span>
                         <PiShoppingCart />
+                        {
+                            totalPrice > 0 && <p>- ${totalPrice}</p>
+                        }
+
                     </button>
 
                 </div>

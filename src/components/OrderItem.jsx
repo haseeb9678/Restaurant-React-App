@@ -29,7 +29,7 @@ const OrderItem = ({ id, item, totalPrice, quantity, status }) => {
                             <td className={`px-1 ${status == 'cancelled' ? "line-through decoration-2" : ""} w-max`}>x{quantity}</td>
                             <td className={`px-1 ${status == 'cancelled' ? "line-through decoration-2" : ""} w-max`}>${totalPrice}</td>
                             <td className="px-1 py-1 w-max">
-                                <span className={` ${status == 'processed' && "bg-green-500"} ${status == 'processing' && "bg-gray-500"} ${status == 'cancelled' && "bg-red-500 line-through decoration-2"} text-white px-2 md:px-3 py-1 rounded-md`}>{status}</span></td>
+                                <span className={` ${status == 'processed' && "bg-green-500"} ${status == 'processing' && "bg-gray-500"} ${status == 'cancelled' && "bg-red-500"} text-white px-2 md:px-3 py-1 rounded-md`}>{status}</span></td>
                         </tr>
                     </tbody>
                 </table>

@@ -30,7 +30,7 @@ const Category = () => {
                         onClick={() => handleClick(menu.menu_name)}
                     >
                         <div
-                            className={`w-30 border-3 rounded-full p-1 md:w-35 lg:w-37
+                            className={`w-25 border-3 rounded-full p-1 md:w-30 lg:w-34
                 ${activeCategory === menu.menu_name
                                     ? 'border-orange-500'
                                     : 'border-black/10'

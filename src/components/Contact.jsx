@@ -1,6 +1,11 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 
 const Contact = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        toast.success("Feedback form submitted")
+    }
     return (
         <section id='contact' className="min-h-screen flex flex-col items-center justify-center px-6 py-12 bg-gradient-to-b from-yellow-50 to-white">
             {/* Heading */}
@@ -24,7 +29,7 @@ const Contact = () => {
                 </div>
 
                 {/* Contact Form */}
-                <form className="flex flex-col space-y-4 p-6 rounded-2xl shadow-md bg-white">
+                <form onSubmit={handleSubmit} className="flex flex-col space-y-4 p-6 rounded-2xl shadow-md bg-white">
                     <input
                         type="text"
                         placeholder="Your Name"
