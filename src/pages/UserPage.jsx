@@ -37,7 +37,6 @@ const UserPage = () => {
         localStorage.removeItem("cartItems")
         localStorage.removeItem("orderItems")
     }
-    console.log(loggedUser);
 
     if (!loggedUser) {
         return <section>User not found...</section>

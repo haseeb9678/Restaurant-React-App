@@ -86,10 +86,17 @@ const OrderItem = () => {
                 };
 
                 updateUser(updatedUser);
-                console.log('runs');
 
                 setQuantity(0);
                 setTotalPrice(0);
+                toast.success(
+                    <p>
+                        Item
+                        <span className='font-semibold'> {item.name} </span>
+                        Added to cart
+                    </p>
+
+                )
             } else {
                 if (!warn) {
                     toogleWarn();

@@ -63,7 +63,6 @@ const ChangePassword = () => {
 
         if (newValidation && oldValidation) {
             if (oldPasswordValue == loggedUser.password) {
-                console.log('pass');
                 loggedUser.password = newPasswordValue
                 updateUser(loggedUser)
             } else {

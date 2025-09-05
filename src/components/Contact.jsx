@@ -5,6 +5,7 @@ const Contact = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         toast.success("Feedback form submitted")
+        e.target.reset()
     }
     return (
         <section id='contact' className="min-h-screen flex flex-col items-center justify-center px-6 py-12 bg-gradient-to-b from-yellow-50 to-white">
@@ -50,7 +51,7 @@ const Contact = () => {
                     ></textarea>
                     <button
                         type="submit"
-                        className="bg-yellow-500 text-white py-3 rounded-lg hover:bg-yellow-600 transition">
+                        className="bg-yellow-500 cursor-pointer text-white py-3 rounded-lg hover:bg-yellow-600 transition">
                         Send Message
                     </button>
                 </form>

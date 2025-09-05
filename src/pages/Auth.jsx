@@ -19,9 +19,6 @@ const Auth = () => {
     const { setHideNav } = useOutletContext()
     const navigate = useNavigate()
 
-    console.log(users);
-
-
     useEffect(() => {
         setHideNav(true)
         return () => setHideNav(false)
