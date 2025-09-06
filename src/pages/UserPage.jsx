@@ -7,8 +7,6 @@ import { toast } from 'react-toastify'
 
 const UserPage = () => {
     const { loggedUser, removeLoggedUser } = useContext(UserInfoContext)
-    const { cartItems, orderItems, setCartItems, setOrderItems } = useContext(UserInfoContext)
-    const [showPasswordChangeComp, setShowPasswordChangeComp] = useState(false)
     const [show, setShow] = useState("dash")
     const navigate = useNavigate()
 
@@ -25,17 +23,9 @@ const UserPage = () => {
         });
     }, [])
 
-    const tooglePasswordChangeComp = () => {
-        setShowPasswordChangeComp(prev => !prev)
-    }
-
     const handleLogOut = () => {
         removeLoggedUser()
         toast.success("Logged out successfully 👋");
-        setCartItems(prev => [])
-        setOrderItems(prev => [])
-        localStorage.removeItem("cartItems")
-        localStorage.removeItem("orderItems")
     }
 
     if (!loggedUser) {

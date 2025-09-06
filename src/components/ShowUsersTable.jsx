@@ -1,27 +1,40 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { UserInfoContext } from '../contexts/userInfo'
 import { toast } from 'react-toastify'
+import { useState } from 'react'
 
 const ShowUsersTable = () => {
     const { users, activeOrders, clearAllUsers } = useContext(UserInfoContext)
-    if (!users) {
-        return <section>
-            <p>No user data is available to show</p>
+    const [show, setShow] = useState(false)
+
+    useEffect(() => {
+        setShow((Object.keys(users).length > 0 ? true : false))
+    }, [users])
+
+    if (!show) {
+        return <section className="w-full overflow-scroll scrollbar-hide flex flex-col gap-5">
+            <h2 className="font-bold text-md md:text-3xl">User Records 👤</h2>
+            <p className="text-gray-500 text-sm md:text-base mt-1">
+                <span className='font-semibold'>No Users Registered.</span> Once users sign up, their records will appear here.
+            </p>
+
         </section>
     }
+
+
     return (
         users.length > 0 && <section className='w-full overflow-scroll flex flex-col gap-5 scrollbar-hide'>
-            <h2 className='font-bold text-lg md:text-2xl'>Users Record</h2>
+            <h2 className='font-bold text-lg md:text-2xl'>Users Record 👤</h2>
             <table className='border-collapse w-full text-center'>
                 <thead>
                     <tr className='font-bold w-full bg-black/5'>
-                        <td className='border border-black/30 w-max px-2 py-1'>Id</td>
-                        <td className='border border-black/30 w-max px-2 py-1'>Name</td>
-                        <td className='border border-black/30 w-max px-2 py-1'>Email</td>
-                        <td className='border border-black/30 w-max px-2 py-1'>Password</td>
-                        <td className='border border-black/30 w-max px-2 py-1 bg-gray-500 text-white'> <span>Active Orders</span></td>
-                        <td className='border border-black/30 w-max px-2 py-1 bg-green-500 text-white'><span>Processed Orders</span></td>
-                        <td className='border border-black/30 w-max px-2 py-1 bg-red-500 text-white'><span>Cancelled Orders</span></td>
+                        <td className='border border-black/30 w-max px-3 py-2'>Id</td>
+                        <td className='border border-black/30 w-max px-3 py-2'>Name</td>
+                        <td className='border border-black/30 w-max px-3 py-2'>Email</td>
+                        <td className='border border-black/30 w-max px-3 py-2'>Password</td>
+                        <td className='border border-black/30 w-max px-3 py-2 bg-gray-500 text-white'> <span>Active Orders</span></td>
+                        <td className='border border-black/30 w-max px-3 py-2 bg-green-500 text-white'><span>Processed Orders</span></td>
+                        <td className='border border-black/30 w-max px-3 py-2 bg-red-500 text-white'><span>Cancelled Orders</span></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,14 +50,14 @@ const ShowUsersTable = () => {
                                 (d) => d.status === 'processed'
                             ).length || 0
 
-                            return <tr key={user.id} className="even:bg-orange-100/40">
-                                <td className='border border-black/30 w-max px-2 py-1'>{user.id}</td>
-                                <td className='border border-black/30 w-max px-2 py-1'>{user.name}</td>
-                                <td className='border border-black/30 w-max px-2 py-1'>{user.email}</td>
-                                <td className='border border-black/30 w-max px-2 py-1'>{user.password}</td>
-                                <td className='border border-black/30 w-max px-2 py-1'>{active}</td>
-                                <td className='border border-black/30 w-max px-2 py-1'>{processed}</td>
-                                <td className='border border-black/30 w-max px-2 py-1'>{cancelled}</td>
+                            return <tr key={user.id} className="even:bg-orange-100/10">
+                                <td className='border border-black/30 w-max px-2 py-2'>{user.id}</td>
+                                <td className='border border-black/30 w-max px-3 py-2'>{user.name}</td>
+                                <td className='border border-black/30 w-max px-3 py-2'>{user.email}</td>
+                                <td className='border border-black/30 w-max px-3 py-2'>{user.password}</td>
+                                <td className='border border-black/30 w-max px-3 py-2'>{active}</td>
+                                <td className='border border-black/30 w-max px-3 py-2'>{processed}</td>
+                                <td className='border border-black/30 w-max px-3 py-2'>{cancelled}</td>
                             </tr>
                         })
                     }

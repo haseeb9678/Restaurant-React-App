@@ -4,33 +4,20 @@ import { UserInfoContext } from '../contexts/userInfo'
 import { toast } from 'react-toastify'
 
 const CartItem = ({ id, item, totalPrice, quantity }) => {
-    const { addOrderItem, cartItems, removeCartItem } = useContext(FoodContext)
-    const { loggedIn, loggedUser, updateUser } = useContext(UserInfoContext)
+    const { addOrderItem, removeCartItem } = useContext(FoodContext)
+    const { loggedIn } = useContext(UserInfoContext)
 
     const handleCheckout = () => {
         if (loggedIn) {
-            const newOrder = {
+            const newOrderItem = {
                 id,
                 item,
                 totalPrice,
                 quantity,
                 status: 'processing'
             }
-
             // update FoodContext order state
-            addOrderItem(newOrder)
-
-            // update user data
-            const updatedUser = {
-                ...loggedUser,
-                ordersData: {
-                    cart: cartItems.filter(c => c.id !== id),
-                    orders: [...(loggedUser.ordersData?.orders || []), newOrder]
-                }
-            }
-
-            updateUser(updatedUser)
-            removeCartItem(id)
+            addOrderItem(newOrderItem)
             toast.success(
                 <span>
                     Item <span className="font-bold text-green-600">{item.name}</span> checked out 🛒
@@ -41,15 +28,6 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
 
     const handleRemove = () => {
         removeCartItem(id)
-        const updatedUser = {
-            ...loggedUser,
-            ordersData: {
-                ...loggedUser.ordersData,
-                cart: loggedUser.ordersData.cart.filter(c => c.id !== id)
-            }
-        };
-
-        updateUser(updatedUser);
         toast.success(
             <span>
                 Item <span className="font-bold text-green-600">{item.name}</span> removed ❌

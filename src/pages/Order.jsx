@@ -1,17 +1,33 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { FoodContext } from '../contexts/foodData'
+import React, { useContext, useState } from 'react'
 import OrderItem from '../components/OrderItem';
 import { UserInfoContext } from '../contexts/userInfo';
 
 const Order = () => {
     const { loggedUser, loggedIn } = useContext(UserInfoContext)
     const [filterStatus, setFilterStatus] = useState('all')
+    const [recent, setRecent] = useState(true)
     return (
         <>
             <section className='px-2 flex flex-col gap-3'>
                 <h2 className='font-bold text-3xl mb-6'>Order Items</h2>
                 <form action="" className="w-full flex justify-end mb-5">
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-col items-center gap-3 md:flex-row">
+                        <label htmlFor="recent" className="font-semibold text-lg text-gray-700">
+                            Show Orders:
+                        </label>
+                        <select
+                            onChange={(e) => {
+                                setRecent(prev => !prev)
+                            }}
+                            name="filter"
+                            id="filter"
+                            defaultValue="recent"
+                            className="bg-white border outline-none border-gray-300 w-44 lg:w-60 h-11 rounded-lg px-3 text-gray-700"
+                        >
+                            <option value="recent">Recent → Oldest</option>
+                            <option value="oldest">Oldest → Recent</option>
+                        </select>
+
                         <label htmlFor="filter" className="font-semibold text-lg text-gray-700">
                             Filter Orders By:
                         </label>
@@ -35,7 +51,7 @@ const Order = () => {
                     loggedIn && loggedUser.ordersData.orders.length > 0 ? (
                         <div className='grid grid-cols-1 gap-2'>
                             {
-                                loggedUser.ordersData.orders.map((order_item) => {
+                                (recent ? [...loggedUser.ordersData.orders] : loggedUser.ordersData.orders).reverse().map((order_item) => {
                                     if (order_item.status == filterStatus || filterStatus == 'all') {
                                         return <OrderItem
                                             key={order_item.id}

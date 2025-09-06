@@ -1,26 +1,41 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserInfoContext } from "../contexts/userInfo";
 import { toast } from "react-toastify";
 
 const AdminOrderRecords = () => {
     const { users, updateUser } = useContext(UserInfoContext);
 
+    const [show, setShow] = useState(false)
+
+    useEffect(() => {
+        const hasOrders = users?.some((user) => user.ordersData.orders.some((order) => order.status == 'processing'))
+        setShow(hasOrders)
+    }, [users])
+
+    if (!show) {
+        return <section className="w-full overflow-scroll scrollbar-hide flex flex-col gap-5">
+            <h2 className="font-bold text-md md:text-3xl">Order Records🛒</h2>
+            <p className="text-sm md:text-lg">You don’t have any active orders right now.
+            </p>
+        </section>
+    }
+
     return (
         <section className="w-full overflow-scroll scrollbar-hide flex flex-col gap-5">
-            <h2 className="font-bold text-lg md:text-2xl">Order Records</h2>
+            <h2 className="font-bold text-md md:text-2xl">Order Records🛒</h2>
             <table className="border-collapse w-full text-center">
                 <thead>
                     <tr className="font-bold w-full bg-black/5">
-                        <th className="border border-black/15 px-2 py-1">Item Image</th>
-                        <th className="border border-black/15 px-2 py-1">Order ID</th>
-                        <th className="border border-black/15 px-2 py-1">Item ID</th>
-                        <th className="border border-black/15 px-2 py-1">Item Name</th>
-                        <th className="border border-black/15 px-2 py-1">Category</th>
-                        <th className="border border-black/15 px-2 py-1">Qty</th>
-                        <th className="border border-black/15 px-2 py-1">Price</th>
-                        <th className="border border-black/15 px-2 py-1">User Email</th>
-                        <th className="border border-black/15 px-2 py-1">Process</th>
-                        <th className="border border-black/15 px-2 py-1">Cancel</th>
+                        <th className="border border-black/15 px-2 py-2">Item Image</th>
+                        <th className="border border-black/15 px-2 py-2">Order ID</th>
+                        <th className="border border-black/15 px-2 py-2">Item ID</th>
+                        <th className="border border-black/15 px-2 py-2">Item Name</th>
+                        <th className="border border-black/15 px-2 py-2">Category</th>
+                        <th className="border border-black/15 px-2 py-2">Qty</th>
+                        <th className="border border-black/15 px-2 py-2">Price</th>
+                        <th className="border border-black/15 px-2 py-2">User Email</th>
+                        <th className="border border-black/15 px-2 py-2">Process</th>
+                        <th className="border border-black/15 px-2 py-2">Cancel</th>
                     </tr>
                 </thead>
                 <tbody>

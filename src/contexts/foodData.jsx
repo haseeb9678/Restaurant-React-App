@@ -1,61 +1,45 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { UserInfoContext } from "./userInfo";
 
 // Create context
 export const FoodContext = createContext();
 
 export const FoodContextProvider = ({ children }) => {
+    const { users, loggedUser, updateUser } = useContext(UserInfoContext)
     const [activeCategory, setActiveCategory] = useState('');
 
-    const [cartItems, setCartItems] = useState(() => {
-        const saved = localStorage.getItem("cartItems")
-        return saved ? JSON.parse(saved) : []
-    });
-
-    useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(cartItems))
-
-    }, [cartItems])
-
     const addCartItem = (newItem) => {
-        setCartItems(prev => [...prev, newItem])
+        const newUserData = { ...loggedUser, ordersData: { ...loggedUser.ordersData, cart: [...loggedUser.ordersData.cart, newItem] } }
+        updateUser(newUserData)
+        console.log("added cart item");
     }
 
     const removeCartItem = (id) => {
-        const updatedData = cartItems.filter((prev) => prev.id != id)
-        setCartItems(updatedData)
+        const newUserData = { ...loggedUser, ordersData: { ...loggedUser.ordersData, cart: loggedUser.ordersData.cart.filter((prev) => prev.id != id) } }
+        updateUser(newUserData)
+        console.log("remove cart item");
+
     }
-
-    const [orderItems, setOrderItems] = useState(() => {
-        const saved = localStorage.getItem("orderItems")
-        return saved ? JSON.parse(saved) : []
-    });
-
-    useEffect(() => {
-        localStorage.setItem("orderItems", JSON.stringify(orderItems))
-    }, [orderItems])
-
     const addOrderItem = (newItem) => {
-        setOrderItems(prev => [...prev, newItem])
+        const newUserData = { ...loggedUser, ordersData: { cart: loggedUser.ordersData.cart.filter((prev) => prev.id != newItem.id), orders: [...loggedUser.ordersData.orders, newItem] } }
+        updateUser(newUserData)
+        console.log("added order item");
     }
 
     const removeOrderItem = (id) => {
-        const updatedData = orderItems.filter((prev) => prev.id != id)
-        setOrderItems(updatedData)
+        const newUserData = { ...loggedUser, ordersData: { ...loggedUser.ordersData, orders: loggedUser.ordersData.orders.filter((prev) => prev.id != id) } }
+        updateUser(newUserData)
+        console.log("removed order item");
     }
-
 
     return (
         <FoodContext.Provider value={{
             activeCategory,
             setActiveCategory,
-            orderItems,
             addOrderItem,
             removeOrderItem,
-            setOrderItems,
-            cartItems,
             addCartItem,
             removeCartItem,
-            setCartItems
         }}>
             {children}
         </FoodContext.Provider>

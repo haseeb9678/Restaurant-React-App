@@ -8,13 +8,12 @@ import { AdminInfoContextProvider } from './contexts/adminInfo.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <FoodContextProvider>
-      <InfoContextProvider>
+    <InfoContextProvider>
+      <FoodContextProvider>
         <AdminInfoContextProvider>
           <App />
         </AdminInfoContextProvider>
-      </InfoContextProvider>
-
-    </FoodContextProvider>
-  </StrictMode>,
+      </FoodContextProvider>
+    </InfoContextProvider>
+  </StrictMode >,
 )

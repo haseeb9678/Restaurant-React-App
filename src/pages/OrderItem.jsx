@@ -15,17 +15,13 @@ const OrderItem = () => {
     const [warn, setWarn] = useState(false);
     const [warnMsg, setWarnMsg] = useState('')
 
-    const { cartItems, addCartItem, setCartItems, setOrderItems } = useContext(FoodContext);
+    const { addCartItem } = useContext(FoodContext);
     const { loggedIn, loggedUser, updateUser } = useContext(UserInfoContext)
 
     useEffect(() => {
         setItem(location.state || null);
     }, [location.state]);
 
-    useEffect(() => {
-        setCartItems(prev => [])
-        setOrderItems(prev => [])
-    }, [])
 
     useEffect(() => {
         setQuantity(0);
@@ -75,18 +71,7 @@ const OrderItem = () => {
                     totalPrice: totalPrice
                 }
 
-                addCartItem(newItem);
-
-                const updatedUser = {
-                    ...loggedUser,
-                    ordersData: {
-                        cart: [...(loggedUser.ordersData?.cart || []), newItem],
-                        orders: loggedUser.ordersData.orders
-                    }
-                };
-
-                updateUser(updatedUser);
-
+                addCartItem(newItem)
                 setQuantity(0);
                 setTotalPrice(0);
                 toast.success(

@@ -9,12 +9,14 @@ export const InfoContextProvider = ({ children }) => {
         return saved ? JSON.parse(saved) : [];
     });
 
+    let loggedUser = users.find((u) => u.loggedIn) || null;
+    const loggedIn = !!loggedUser;
+
     useEffect(() => {
         localStorage.setItem("users", JSON.stringify(users));
+        loggedUser = users.find((u) => u.loggedIn) || null;
     }, [users]);
 
-    const loggedUser = users.find((u) => u.loggedIn) || null;
-    const loggedIn = !!loggedUser;
 
     const logInUser = (id) => {
         setUsers((prev) =>
