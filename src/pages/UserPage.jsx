@@ -43,11 +43,11 @@ const UserPage = () => {
                 <div className='border border-r-0 border-black/30 overflow-hidden min-w-[130px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
                     <div
                         onClick={() => setShow("dash")}
-                        className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-max px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Dashboard</div>
+                        className={`border  ${show == 'dash' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Dashboard</div>
 
                     <div
                         onClick={() => setShow("changeP")}
-                        className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-max px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Change Password
+                        className={`border  ${show == 'changeP' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Change Password
                     </div>
                 </div>
 

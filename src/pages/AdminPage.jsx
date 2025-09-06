@@ -4,11 +4,14 @@ import { AdminInfoContext } from '../contexts/adminInfo'
 import ShowUsersTable from '../components/ShowUsersTable'
 import AdminOrderRecords from '../components/AdminOrderRecords'
 import AdminFoodItems from '../components/AdminFoodItems'
+import AdminDashboard from '../components/AdminDashboard'
 import { toast } from 'react-toastify'
+import AdminOrders from '../components/AdminOrders'
 
 const AdminPage = () => {
     const { loggedIn, admin, removeLoggedAdmin } = useContext(AdminInfoContext)
-    const [show, setShow] = useState("table")
+    const [show, setShow] = useState("dash")
+    const [dashFilter, setDashFilter] = useState("all")
     const { setHideNav } = useOutletContext()
     const navigate = useNavigate()
     useEffect(() => {
@@ -46,16 +49,24 @@ const AdminPage = () => {
             <div className='flex w-full flex-1'>
                 <div className='border border-r-0 border-black/30 overflow-hidden min-w-[130px] flex flex-col items-end gap-2 py-17  text-[12px] md:w-[250px] md:text-sm'>
                     <div
-                        onClick={() => toogleShow("table")}
-                        className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Users
+                        onClick={() => toogleShow("dash")}
+                        className={`border  ${show == 'dash' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Dashboard
                     </div>
                     <div
-                        onClick={() => toogleShow("orderRecords")}
-                        className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Orders
+                        onClick={() => toogleShow("users")}
+                        className={`border  ${show == 'users' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Users
+                    </div>
+                    <div
+                        onClick={() => toogleShow("orders")}
+                        className={`border  ${show == 'orders' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Orders
+                    </div>
+                    <div
+                        onClick={() => toogleShow("activeOrders")}
+                        className={`border  ${show == 'activeOrders' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Active Orders
                     </div>
                     <div
                         onClick={() => toogleShow("items")}
-                        className='border bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2'>Food Items
+                        className={`border  ${show == 'items' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Food Items
                     </div>
 
                 </div>
@@ -63,14 +74,18 @@ const AdminPage = () => {
                 <div className='border border-black/30 w-full p-4 md:p-5 lg:pl-9'>
                     <div className='w-full py-9'>
                         {
-                            show == 'table' ? (
+                            show == 'users' ? (
                                 <ShowUsersTable />
                             ) : (
-                                show == 'orderRecords' ? (
+                                show == 'activeOrders' ? (
                                     <AdminOrderRecords />
                                 ) : (
                                     show == 'items' ? (
                                         <AdminFoodItems />
+                                    ) : show == 'dash' ? (
+                                        <AdminDashboard setShow={setShow} setDashFilter={setDashFilter} />
+                                    ) : show == 'orders' ? (
+                                        <AdminOrders dashFilter={dashFilter} />
                                     ) : null
                                 )
                             )

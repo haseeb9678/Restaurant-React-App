@@ -14,7 +14,7 @@ const AdminOrderRecords = () => {
 
     if (!show) {
         return <section className="w-full overflow-scroll scrollbar-hide flex flex-col gap-5">
-            <h2 className="font-bold text-md md:text-3xl">Order Records🛒</h2>
+            <h2 className="font-bold text-md md:text-3xl">Active Order Records🛒</h2>
             <p className="text-sm md:text-lg">You don’t have any active orders right now.
             </p>
         </section>
@@ -22,7 +22,7 @@ const AdminOrderRecords = () => {
 
     return (
         <section className="w-full overflow-scroll scrollbar-hide flex flex-col gap-5">
-            <h2 className="font-bold text-md md:text-2xl">Order Records🛒</h2>
+            <h2 className="font-bold text-md md:text-2xl">Active Order Records🛒</h2>
             <table className="border-collapse w-full text-center">
                 <thead>
                     <tr className="font-bold w-full bg-black/5">

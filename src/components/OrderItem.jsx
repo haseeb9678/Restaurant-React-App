@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { FoodContext } from '../contexts/foodData'
 
-const OrderItem = ({ id, item, totalPrice, quantity, status }) => {
+const OrderItem = ({ id, item, totalPrice, quantity, status, userEmail, isAdmin = false }) => {
     const { removeOrderItem } = useContext(FoodContext)
     const handleCancel = () => {
         removeOrderItem(id)
@@ -22,6 +22,7 @@ const OrderItem = ({ id, item, totalPrice, quantity, status }) => {
                     <thead>
                         <tr className="text-black/50">
                             <td className="px-1 w-60">Order ID</td>
+                            {isAdmin && <td className="px-1 w-60">User Email</td>}
                             <td className="px-1 w-60">Item</td>
                             <td className="px-1 w-max">Qty</td>
                             <td className="px-1 w-max">Amount</td>
@@ -31,14 +32,15 @@ const OrderItem = ({ id, item, totalPrice, quantity, status }) => {
                     <tbody>
                         <tr>
                             <td className={`px-1  w-max`}>{id}</td>
+                            {isAdmin && <td className="px-1 w-60">{userEmail}</td>}
                             <td className={`px-1 ${status == 'cancelled' ? "line-through decoration-2" : ""} font-semibold max-w-25`}>{item.name}</td>
                             <td className={`px-1 ${status == 'cancelled' ? "line-through decoration-2" : ""} w-max`}>x{quantity}</td>
                             <td className={`px-1 ${status == 'cancelled' ? "line-through decoration-2" : ""} w-max`}>${totalPrice}</td>
-                            <div className='flex gap-4 items-center'>
-                                <td className="px-1 py-1 w-max">
-                                    <span className={` ${status == 'processed' && "bg-green-500"} ${status == 'processing' && "bg-gray-500"} ${status == 'cancelled' && "bg-red-500"} text-white px-2 md:px-3 py-1 rounded-md`}>{status}</span></td>
+                            <td className='flex gap-4 items-center'>
+                                <div className="px-1 py-1 w-max">
+                                    <span className={` ${status == 'processed' && "bg-green-500"} ${status == 'processing' && "bg-gray-500"} ${status == 'cancelled' && "bg-red-500"} text-white px-2 md:px-3 py-1 rounded-md`}>{status}</span></div>
                                 {
-                                    status == 'processing' && <td className={`w-max px-1`}>
+                                    status == 'processing' && !isAdmin && <td className={`w-max px-1`}>
                                         <span
                                             onClick={handleCancel}
                                             className=' bg-red-500 text-white px-2 md:px-3 py-1 rounded-md cursor-pointer hover:bg-red-600'>
@@ -46,7 +48,7 @@ const OrderItem = ({ id, item, totalPrice, quantity, status }) => {
                                         </span>
                                     </td>
                                 }
-                            </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
