@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { FoodContext } from '../contexts/foodData'
-import { food_list } from '../assets/frontend_assets/assets';
 import FoodItemCard from './FoodItemCard';
+import { MenuInfoContext } from '../contexts/menuInfo';
 
 const FoodItems = ({ item }) => {
     const { activeCategory, setActiveCategory } = useContext(FoodContext);
+    const { food_list } = useContext(MenuInfoContext);
     const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
-
         if (activeCategory == '') {
             setFilteredData(food_list)
         } else {
@@ -18,7 +18,7 @@ const FoodItems = ({ item }) => {
             }
         }
 
-    }, [activeCategory, item])
+    }, [activeCategory, item, food_list])
 
     return (
         <>

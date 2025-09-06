@@ -50,7 +50,7 @@ const ShowUsersTable = () => {
                                 (d) => d.status === 'processed'
                             ).length || 0
 
-                            return <tr key={user.id} className="even:bg-orange-100/10">
+                            return <tr key={user.id} className="even:bg-orange-100/30">
                                 <td className='border border-black/30 w-max px-2 py-2'>{user.id}</td>
                                 <td className='border border-black/30 w-max px-3 py-2'>{user.name}</td>
                                 <td className='border border-black/30 w-max px-3 py-2'>{user.email}</td>

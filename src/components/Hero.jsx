@@ -10,9 +10,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
-
-
-
 const Hero = () => {
     const scrollIntoCategory = () => {
         const section = document.getElementById("category");

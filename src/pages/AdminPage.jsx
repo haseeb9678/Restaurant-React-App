@@ -7,11 +7,13 @@ import AdminFoodItems from '../components/AdminFoodItems'
 import AdminDashboard from '../components/AdminDashboard'
 import { toast } from 'react-toastify'
 import AdminOrders from '../components/AdminOrders'
+import AdminUpdateQuantity from '../components/AdminUpdateQuantity'
 
 const AdminPage = () => {
     const { loggedIn, admin, removeLoggedAdmin } = useContext(AdminInfoContext)
     const [show, setShow] = useState("dash")
     const [dashFilter, setDashFilter] = useState("all")
+    const [item, setItem] = useState(null)
     const { setHideNav } = useOutletContext()
     const navigate = useNavigate()
     useEffect(() => {
@@ -81,11 +83,13 @@ const AdminPage = () => {
                                     <AdminOrderRecords />
                                 ) : (
                                     show == 'items' ? (
-                                        <AdminFoodItems />
+                                        <AdminFoodItems setShow={setShow} setItem={setItem} />
                                     ) : show == 'dash' ? (
                                         <AdminDashboard setShow={setShow} setDashFilter={setDashFilter} />
                                     ) : show == 'orders' ? (
                                         <AdminOrders dashFilter={dashFilter} />
+                                    ) : show == 'updateQuantity' ? (
+                                        <AdminUpdateQuantity setShow={setShow} item={item} />
                                     ) : null
                                 )
                             )

@@ -41,6 +41,11 @@ const FoodItemCard = ({ item }) => {
                     <span className='font-bold text-2xl text-orange-400'>${item.price}</span>
                 </div>
             </div>
+            {
+                item.quantity == 0 && <div className='flex justify-center'>
+                    <span className='text-white text-center bg-orange-500 w-[50%] py-1 rounded-lg'>Out of Stock</span>
+                </div>
+            }
 
         </div>
     )

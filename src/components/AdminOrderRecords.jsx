@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserInfoContext } from "../contexts/userInfo";
 import { toast } from "react-toastify";
+import { MenuInfoContext } from "../contexts/menuInfo";
 
 const AdminOrderRecords = () => {
     const { users, updateUser } = useContext(UserInfoContext);
 
     const [show, setShow] = useState(false)
+    const { food_list, updateFoodListItem } = useContext(MenuInfoContext)
 
     useEffect(() => {
         const hasOrders = users?.some((user) => user.ordersData.orders.some((order) => order.status == 'processing'))
@@ -76,6 +78,7 @@ const AdminOrderRecords = () => {
                                         <td className="border border-black/15 px-2 py-1">
                                             <span
                                                 onClick={() => {
+
                                                     // build new orders array immutably
                                                     const updatedOrders = user.ordersData.orders.map(
                                                         (o) =>
@@ -91,6 +94,7 @@ const AdminOrderRecords = () => {
                                                     };
 
                                                     updateUser(updatedUser);
+
                                                     toast.success(
                                                         <span>
                                                             Order <span className="font-bold text-green-600">{order.item.name}</span> processed
@@ -105,6 +109,7 @@ const AdminOrderRecords = () => {
                                         <td className="border border-black/15 px-2 py-1">
                                             <span
                                                 onClick={() => {
+                                                    const foodListItem = food_list.find((f) => f.id == order.item.id)
                                                     // build new orders array immutably
                                                     const updatedOrders = user.ordersData.orders.map(
                                                         (o) =>
@@ -120,6 +125,7 @@ const AdminOrderRecords = () => {
                                                     };
 
                                                     updateUser(updatedUser);
+                                                    updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity + order.quantity })
                                                     toast.success(
                                                         <span>
                                                             Order <span className="font-bold text-red-600">{order.item.name}</span> cancelled

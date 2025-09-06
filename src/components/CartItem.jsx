@@ -2,10 +2,15 @@ import React, { useContext, useEffect } from 'react'
 import { FoodContext } from '../contexts/foodData'
 import { UserInfoContext } from '../contexts/userInfo'
 import { toast } from 'react-toastify'
+import { MenuInfoContext } from '../contexts/menuInfo'
 
 const CartItem = ({ id, item, totalPrice, quantity }) => {
     const { addOrderItem, removeCartItem } = useContext(FoodContext)
+    const { food_list, updateFoodListItem } = useContext(MenuInfoContext)
     const { loggedIn } = useContext(UserInfoContext)
+
+    const foodListItem = food_list.find((f) => f.id == item.id)
+    console.log(foodListItem);
 
     const handleCheckout = () => {
         if (loggedIn) {
@@ -28,6 +33,7 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
 
     const handleRemove = () => {
         removeCartItem(id)
+        updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity + quantity })
         toast.success(
             <span>
                 Item <span className="font-bold text-green-600">{item.name}</span> removed ❌

@@ -6,28 +6,24 @@ import { FoodContext } from '../contexts/foodData';
 import RelatedItems from '../components/RelatedItems';
 import { UserInfoContext } from '../contexts/userInfo';
 import { toast } from 'react-toastify';
+import { MenuInfoContext } from '../contexts/menuInfo';
 
 const OrderItem = () => {
-    const [item, setItem] = useState(null);
     const [quantity, setQuantity] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const location = useLocation();
     const [warn, setWarn] = useState(false);
     const [warnMsg, setWarnMsg] = useState('')
-
-    const { addCartItem } = useContext(FoodContext);
-    const { loggedIn, loggedUser, updateUser } = useContext(UserInfoContext)
-
-    useEffect(() => {
-        setItem(location.state || null);
-    }, [location.state]);
-
+    const { addCartItem } = useContext(FoodContext)
+    const { loggedIn } = useContext(UserInfoContext)
+    const { food_list, updateFoodListItem } = useContext(MenuInfoContext)
+    const foodListItem = food_list.find((f) => f.id == location.state.id)
 
     useEffect(() => {
         setQuantity(0);
         setTotalPrice(0);
         setWarn(false);
-    }, [item])
+    }, [])
 
     const toogleWarn = () => {
         setWarn(prev => !prev)
@@ -54,30 +50,37 @@ const OrderItem = () => {
 
     const updatePrice = (type) => {
         if (type == 'inc') {
-            setTotalPrice(prev => prev + item.price)
+            setTotalPrice(prev => prev + foodListItem.price)
         } else if (type == 'dec') {
-            setTotalPrice(prev => prev - item.price)
+            setTotalPrice(prev => prev - foodListItem.price)
         }
     }
+
+    console.log(foodListItem);
 
 
     const handleCart = () => {
         if (loggedIn) {
             if (quantity > 0) {
+                if (quantity > foodListItem.quantity) {
+                    toast.error("Bought Quantity is not available")
+                    return
+                }
                 const newItem = {
                     id: Date.now(),
-                    item: item,
+                    item: foodListItem,
                     quantity: quantity,
                     totalPrice: totalPrice
                 }
 
                 addCartItem(newItem)
+                updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity - quantity })
                 setQuantity(0);
                 setTotalPrice(0);
                 toast.success(
                     <p>
                         Item
-                        <span className='font-semibold'> {item.name} </span>
+                        <span className='font-semibold'> {foodListItem.name} </span>
                         Added to cart
                     </p>
 
@@ -104,7 +107,7 @@ const OrderItem = () => {
     }, [warn])
 
 
-    if (!item) {
+    if (!foodListItem) {
         return (
             <div className="flex items-center justify-center h-[50vh]">
                 <h2 className="font-semibold text-gray-500 text-xl md:text-3xl animate-pulse">
@@ -122,8 +125,8 @@ const OrderItem = () => {
                 <div className="flex justify-center items-center md:w-1/2 lg:max-w-[450px]">
                     <img
                         className="rounded-xl max-h-[370px] object-fit w-full"
-                        src={item.image}
-                        alt={item.name}
+                        src={foodListItem.image}
+                        alt={foodListItem.name}
                     />
                 </div>
 
@@ -131,7 +134,7 @@ const OrderItem = () => {
                 <div className="flex flex-col justify-between gap-1 md:w-1/2">
 
                     <div className="flex gap-3 justify-between items-center mb-3">
-                        <h2 className="font-bold text-2xl mb-2">{item.name}</h2>
+                        <h2 className="font-bold text-2xl mb-2">{foodListItem.name}</h2>
                         <span>
                             <img
                                 src={assets.rating_starts}
@@ -141,40 +144,51 @@ const OrderItem = () => {
                         </span>
                     </div>
                     <div className='flex flex-col my-2 gap-2'>
-                        <p>{item.description}</p>
-                        <span className='font-bold text-3xl text-green-700'>${item.price}</span>
+                        <p>{foodListItem.description}</p>
+                        <span className='font-bold text-3xl text-green-700'>${foodListItem.price}</span>
                     </div>
 
                     <hr className='border-b-1 border-black/10 my-1' />
+                    {
+                        foodListItem.quantity > 0 && foodListItem.quantity < 5 && <p className='text-orange-500 text-lg'>Low Stock!</p>
+                    }
+                    {
+                        foodListItem.quantity > 0 ? (
+                            <>
+                                <div className='flex gap-3 items-center justify-end mb-3'>
+                                    <p className='font-semibold text-md text-black/60'>Select Quantity</p>
+                                    <div className='flex flex-row-reverse gap-3 items-center bg-white shadow-sm px-3 py-2 rounded-full'>
+                                        <button onClick={handleIncrease} className='bg-green-500/70 text-xl text-white font-semibold rounded-full w-10 h-10 cursor-pointer'>+</button>
+                                        <p className='font-semibold w-3'>{quantity}</p>
+                                        <button onClick={handleDecrease} className='bg-red-500/70 text-xl text-white font-semibold rounded-full w-10 h-10 cursor-pointer'>-</button>
+                                    </div>
+                                </div>
+                                <p className='text-red-500 text-end text-sm h-3 mb-2'>
+                                    {
+                                        warn ? warnMsg : null
+                                    }
+                                </p>
 
-                    <div className='flex gap-3 items-center justify-end mb-3'>
-                        <p className='font-semibold text-md text-black/60'>Select Quantity</p>
-                        <div className='flex flex-row-reverse gap-3 items-center bg-white shadow-sm px-3 py-2 rounded-full'>
-                            <button onClick={handleIncrease} className='bg-green-500/70 text-xl text-white font-semibold rounded-full w-10 h-10 cursor-pointer'>+</button>
-                            <p className='font-semibold w-3'>{quantity}</p>
-                            <button onClick={handleDecrease} className='bg-red-500/70 text-xl text-white font-semibold rounded-full w-10 h-10 cursor-pointer'>-</button>
-                        </div>
-                    </div>
-                    <p className='text-red-500 text-end text-sm h-3 mb-2'>
-                        {
-                            warn ? warnMsg : null
-                        }
-                    </p>
-                    <button
-                        onClick={handleCart}
-                        className="mt-auto cursor-pointer bg-orange-500 flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl hover:bg-orange-600">
-                        <span >Add to Cart</span>
-                        <PiShoppingCart />
-                        {
-                            totalPrice > 0 && <p>- ${totalPrice}</p>
-                        }
+                                <button
+                                    onClick={handleCart}
+                                    className="mt-auto cursor-pointer bg-orange-500 flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl hover:bg-orange-600">
+                                    <span >Add to Cart</span>
+                                    <PiShoppingCart />
+                                    {
+                                        totalPrice > 0 && <p>- ${totalPrice}</p>
+                                    }
 
-                    </button>
+                                </button>
+                            </>
+                        ) : (
+                            <h2 className='text-orange-500 font-bold text-xl sm:text-2xl md:text-3xl'>Out of Stock</h2>
+                        )
+                    }
 
                 </div>
             </section >
 
-            <RelatedItems item={item} />
+            <RelatedItems item={foodListItem} />
         </>
     );
 };

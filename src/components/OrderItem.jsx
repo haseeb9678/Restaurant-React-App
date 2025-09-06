@@ -1,10 +1,15 @@
 import React, { useContext } from 'react'
 import { FoodContext } from '../contexts/foodData'
+import { MenuInfoContext } from '../contexts/menuInfo'
 
 const OrderItem = ({ id, item, totalPrice, quantity, status, userEmail, isAdmin = false }) => {
     const { removeOrderItem } = useContext(FoodContext)
+    const { food_list, updateFoodListItem } = useContext(MenuInfoContext)
+    const foodListItem = food_list.find((f) => f.id == item.id)
+
     const handleCancel = () => {
         removeOrderItem(id)
+        updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity + quantity })
     }
 
     return (
