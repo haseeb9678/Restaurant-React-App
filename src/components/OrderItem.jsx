@@ -1,15 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { FoodContext } from '../contexts/foodData'
 import { MenuInfoContext } from '../contexts/menuInfo'
+import { toast } from 'react-toastify'
 
 const OrderItem = ({ id, item, totalPrice, quantity, status, userEmail, isAdmin = false }) => {
     const { removeOrderItem } = useContext(FoodContext)
     const { food_list, updateFoodListItem } = useContext(MenuInfoContext)
     const foodListItem = food_list.find((f) => f.id == item.id)
+    const [loading, setLoading] = useState(false)
 
     const handleCancel = () => {
-        removeOrderItem(id)
-        updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity + quantity })
+        setLoading(true)
+        setTimeout(() => {
+            removeOrderItem(id)
+            updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity + quantity })
+            toast.success(
+                <p>
+                    Item
+                    <span className='text-red-500 font-semibold'>{item.name}</span>
+                    cancelled
+                </p>
+            )
+            setLoading(false)
+        }, 2000)
     }
 
     return (
@@ -42,15 +55,46 @@ const OrderItem = ({ id, item, totalPrice, quantity, status, userEmail, isAdmin 
                             <td className={`px-1 ${status == 'cancelled' ? "line-through decoration-2" : ""} w-max`}>x{quantity}</td>
                             <td className={`px-1 ${status == 'cancelled' ? "line-through decoration-2" : ""} w-max`}>${totalPrice}</td>
                             <td className='flex gap-4 items-center'>
-                                <div className="px-1 py-1 w-max">
-                                    <span className={` ${status == 'processed' && "bg-green-500"} ${status == 'processing' && "bg-gray-500"} ${status == 'cancelled' && "bg-red-500"} text-white px-2 md:px-3 py-1 rounded-md`}>{status}</span></div>
+                                <div className="px-1 py-1 w-max flex flex-col gap-1">
+                                    <span className={` ${status == 'processed' && "bg-green-500"} ${status == 'processing' && "bg-gray-500"} ${status == 'cancelled' && "bg-red-500"} text-white px-2 md:px-3 py-1 rounded-md`}>
+                                        {status} </span>
+                                    {
+                                        status == 'cancelled' && <p className='text-md text-red-800'>By Admin*</p>
+                                    }
+                                </div>
                                 {
                                     status == 'processing' && !isAdmin && <td className={`w-max px-1`}>
-                                        <span
+                                        <button
                                             onClick={handleCancel}
-                                            className=' bg-red-500 text-white px-2 md:px-3 py-1 rounded-md cursor-pointer hover:bg-red-600'>
-                                            Cancel
-                                        </span>
+                                            disabled={loading}
+                                            className={`mt-auto flex justify-center items-center ${loading ? "cursor-not-allowed bg-red-400" : "bg-red-500  hover:bg-red-600 cursor-pointer"} flex gap-2 justify-center items-center text-white px-2 md:px-3 py-1 rounded-md`}>
+                                            {loading ? (
+                                                <>
+                                                    <svg
+                                                        className="animate-spin h-5 w-5 text-white mr-2"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <circle
+                                                            className="opacity-25"
+                                                            cx="12"
+                                                            cy="12"
+                                                            r="10"
+                                                            stroke="currentColor"
+                                                            strokeWidth="4"
+                                                        ></circle>
+                                                        <path
+                                                            className="opacity-75"
+                                                            fill="currentColor"
+                                                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                                        ></path>
+                                                    </svg>
+                                                    Cancelling..
+                                                </>
+                                            ) : "Cancel"}
+
+                                        </button>
                                     </td>
                                 }
                             </td>

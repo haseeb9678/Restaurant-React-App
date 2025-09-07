@@ -2,14 +2,23 @@ import React, { useContext, useEffect } from 'react'
 import { UserInfoContext } from '../contexts/userInfo'
 import { toast } from 'react-toastify'
 import { useState } from 'react'
+import { SlInfo, SlMagnifier } from "react-icons/sl";
 
 const ShowUsersTable = () => {
     const { users, activeOrders, clearAllUsers } = useContext(UserInfoContext)
     const [show, setShow] = useState(false)
+    const [filteredUsers, setFilteredUsers] = useState(users)
 
     useEffect(() => {
         setShow((Object.keys(users).length > 0 ? true : false))
     }, [users])
+
+    const handleChange = (e) => {
+        const value = e.currentTarget.value
+        const newUsers = users.filter((user) =>
+            JSON.stringify(user.id).includes(value) || user.name.includes(value) || user.email.includes(value))
+        setFilteredUsers(newUsers)
+    }
 
     if (!show) {
         return <section className="w-full overflow-scroll scrollbar-hide flex flex-col gap-5">
@@ -25,6 +34,19 @@ const ShowUsersTable = () => {
     return (
         users.length > 0 && <section className='w-full overflow-scroll flex flex-col gap-5 scrollbar-hide'>
             <h2 className='font-bold text-lg md:text-2xl'>Users Record 👤</h2>
+            <div className='flex flex-col gap-3 xl:flex-row xl:justify-between xl:items-center'>
+                <p className='text-start text-lg'>Total Users: <span className='font-semibold'>{users.length}</span></p>
+                <form>
+                    <label htmlFor="search" className='flex flex-row-reverse w-55 md:w-90 justify-between items-center bg-gray-500/10 h-10 rounded-md px-3 md:px-5'>
+                        <input
+                            onChange={(e) => handleChange(e)}
+                            className='bg-transparent border-none outline-none w-full'
+                            type="text" name="search" id="search"
+                            placeholder='Search user by name, email or id' />
+                        <span className='mr-3 border-r-2 text-lg text-black/70 border-r-black/10 h-full flex items-center pr-3'><SlMagnifier /></span>
+                    </label>
+                </form>
+            </div>
             <table className='border-collapse w-full text-center'>
                 <thead>
                     <tr className='font-bold w-full bg-black/5'>
@@ -39,7 +61,7 @@ const ShowUsersTable = () => {
                 </thead>
                 <tbody>
                     {
-                        users.map((user) => {
+                        filteredUsers.map((user) => {
                             const active = user.ordersData?.orders?.filter(
                                 (d) => d.status === 'processing'
                             ).length || 0

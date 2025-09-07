@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { FoodContext } from '../contexts/foodData'
 import { UserInfoContext } from '../contexts/userInfo'
 import { toast } from 'react-toastify'
@@ -8,6 +8,8 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
     const { addOrderItem, removeCartItem } = useContext(FoodContext)
     const { food_list, updateFoodListItem } = useContext(MenuInfoContext)
     const { loggedIn } = useContext(UserInfoContext)
+    const [loadingCheckout, setLoadingCheckout] = useState(false)
+    const [loadingRemove, setLoadingRemove] = useState(false)
 
     const foodListItem = food_list.find((f) => f.id == item.id)
     console.log(foodListItem);
@@ -21,24 +23,34 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
                 quantity,
                 status: 'processing'
             }
-            // update FoodContext order state
-            addOrderItem(newOrderItem)
-            toast.success(
-                <span>
-                    Item <span className="font-bold text-green-600">{item.name}</span> checked out 🛒
-                </span>
-            );
+
+            setLoadingCheckout(true)
+            setTimeout(() => {
+                addOrderItem(newOrderItem)
+                toast.success(
+                    <span>
+                        Item <span className="font-bold text-green-600">{item.name}</span> checked out 🛒
+                    </span>
+                );
+                setLoadingCheckout(false)
+            }, 2000)
+
         }
     }
 
     const handleRemove = () => {
-        removeCartItem(id)
-        updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity + quantity })
-        toast.success(
-            <span>
-                Item <span className="font-bold text-green-600">{item.name}</span> removed ❌
-            </span>
-        );
+        setLoadingRemove(true)
+        setTimeout(() => {
+            removeCartItem(id)
+            updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity + quantity })
+            toast.success(
+                <span>
+                    Item <span className="font-bold text-green-600">{item.name}</span> removed ❌
+                </span>
+            );
+            setLoadingRemove(false)
+        }, 2000)
+
     }
 
 
@@ -72,12 +84,68 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
             </div>
 
             <div className="flex gap-3 w-full md:w-auto mt-3 md:mt-0">
-                <button onClick={handleCheckout} className="flex-1 cursor-pointer md:flex-none px-3 py-2 bg-green-500 text-white text-center rounded-lg text-sm hover:bg-green-600">
-                    Checkout
+
+                <button
+                    disabled={loadingCheckout}
+                    onClick={handleCheckout}
+                    className={`flex-1 flex justify-center items-center ${loadingCheckout ? "cursor-not-allowed bg-green-400" : "bg-green-500  hover:bg-green-600 cursor-pointer"}  md:flex-none px-3 py-2 0 text-white text-center rounded-lg text-sm`}>
+                    {loadingCheckout ? (
+                        <>
+                            <svg
+                                className="animate-spin h-5 w-5 text-white mr-2"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                ></path>
+                            </svg>
+                            CheckingOut..
+                        </>
+                    ) : "CheckOut"}
                 </button>
-                <button onClick={handleRemove} className="flex-1 cursor-pointer md:flex-none px-3 py-2 bg-red-500 text-white text-center rounded-lg text-sm hover:bg-red-600">
-                    Remove
+                <button
+                    disabled={loadingRemove}
+                    onClick={handleRemove}
+                    className={`flex-1 flex justify-center items-center ${loadingRemove ? "cursor-not-allowed bg-red-400" : "bg-red-500  hover:bg-red-600 cursor-pointer"}  md:flex-none px-3 py-2 0 text-white text-center rounded-lg text-sm`}>
+                    {loadingRemove ? (
+                        <>
+                            <svg
+                                className="animate-spin h-5 w-5 text-white mr-2"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                ></path>
+                            </svg>
+                            Removing..
+                        </>
+                    ) : "Remove"}
                 </button>
+
             </div>
         </div>
     )

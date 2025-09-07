@@ -40,6 +40,11 @@ export const MenuInfoContextProvider = ({ children }) => {
         localStorage.setItem("menuData", JSON.stringify(updatedList));
     };
 
+    const setDefaultMenu = () => {
+        localStorage.setItem("menuData", JSON.stringify(initialFoodList));
+        setFoodList(initialFoodList);
+    }
+
     return (
         <MenuInfoContext.Provider
             value={{
@@ -47,6 +52,7 @@ export const MenuInfoContextProvider = ({ children }) => {
                 removeItem,
                 updateFoodList,
                 updateFoodListItem,
+                setDefaultMenu,
                 food_list: foodList,
             }}
         >

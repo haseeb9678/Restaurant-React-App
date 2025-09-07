@@ -7,8 +7,8 @@ import { AdminInfoContext } from '../contexts/adminInfo';
 import { toast } from 'react-toastify'
 
 const Auth = () => {
-    const { users, addUsers, loggedUser, logInUser, findUser } = useContext(UserInfoContext)
-    const { admin, checkAdminValidity, addLoggedAdmin } = useContext(AdminInfoContext)
+    const { users, addUsers, logInUser, findUser } = useContext(UserInfoContext)
+    const { checkAdminValidity, addLoggedAdmin } = useContext(AdminInfoContext)
     const [signIn, setSignIn] = useState(true)
     const [passwordHide, setPasswordHide] = useState(true)
     const [name, setName] = useState('')
@@ -17,6 +17,7 @@ const Auth = () => {
     const [errors, setErrors] = useState({})
     const [invalidWarn, setInvalidWarn] = useState({ status: false, message: '' })
     const { setHideNav } = useOutletContext()
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -103,24 +104,39 @@ const Auth = () => {
         setErrors(newErrors)
 
         if (signIn && Object.keys(newErrors).length == 0) {
+            setLoading(true)
             const userData = findUser({ email, password })
             if (userData) {
-                logInUser(userData.id)
-                toast.success("Signed in successfully 🎉")
-                navigate('/')
+                setTimeout(() => {
+                    logInUser(userData.id)
+                    toast.success("Signed in successfully 🎉")
+                    navigate('/')
+                    setLoading(false)
+                }, 3000)
+
             } else if (checkAdminValidity({ email, password })) {
-                addLoggedAdmin()
-                toast.success("Welcome Admin 🎉")
-                navigate('/admin')
+                setTimeout(() => {
+                    addLoggedAdmin()
+                    toast.success("Welcome Admin 🎉")
+                    navigate('/admin')
+                    setLoading(false)
+                }, 3000)
+
+
             } else {
-                setInvalidWarn(prev => ({ status: true, message: "Invalid email or password entered" }))
-                toast.error("Invalid email or password ❌")  // ❌ error toast
+                setTimeout(() => {
+                    setInvalidWarn(prev => ({ status: true, message: "Invalid email or password entered" }))
+                    toast.error("Invalid email or password ❌")
+                    setLoading(false)
+                }, 3000)
 
             }
+
         }
 
         if (!signIn && Object.keys(newErrors).length == 0) {
             if (checkValiditySignUp()) {
+                setLoading(true)
                 const newUser = {
                     id: Date.now(),
                     name,
@@ -132,12 +148,20 @@ const Auth = () => {
                         orders: []
                     }
                 }
-                addUsers(newUser)
-                toast.success("Account created successfully 🎉")
-                navigate('/')
+                setTimeout(() => {
+                    addUsers(newUser)
+                    toast.success("Account created successfully 🎉")
+                    navigate('/')
+                    setLoading(false)
+                }, 3000)
+
             } else {
-                setInvalidWarn({ status: true, message: "user with email already exists" })
-                toast.error("User with email already exists ❌")
+                setTimeout(() => {
+                    setInvalidWarn({ status: true, message: "user with email already exists" })
+                    toast.error("User with email already exists ❌")
+                    setLoading(false)
+                }, 3000)
+
             }
         }
 
@@ -191,7 +215,34 @@ const Auth = () => {
 
                             <button
                                 type='submit'
-                                className='cursor-pointer mt-5 bg-orange-500 text-white rounded-full px-2 py-1 w-[40%] md:px-6 md:py-2 hover:bg-orange-600'>Sign in</button>
+                                disabled={loading}
+                                className={`flex ${loading ? "cursor-not-allowed bg-orange-400" : "bg-orange-500  hover:bg-orange-600 cursor-pointer"} justify-center items-center  mt-5  text-white rounded-full px-3 py-1 w-[40%] min-w-max md:px-7 md:py-2`}>
+                                {loading ? (
+                                    <>
+                                        <svg
+                                            className="animate-spin h-5 w-5 text-white mr-2"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                            ></path>
+                                        </svg>
+                                        Sign in
+                                    </>
+                                ) : "Sign in"}
+                            </button>
                         </>
 
                     ) : (
@@ -249,7 +300,34 @@ const Auth = () => {
 
                             <button
                                 type='submit'
-                                className='cursor-pointer mt-5 bg-orange-500 text-white rounded-full px-2 py-1 w-[40%] md:px-6 md:py-2 hover:bg-orange-600'>Sign up</button>
+                                disabled={loading}
+                                className={`flex ${loading ? "cursor-not-allowed bg-orange-400" : "bg-orange-500  hover:bg-orange-600 cursor-pointer"} justify-center items-center  mt-5  text-white rounded-full px-3 py-1 w-[40%] min-w-max md:px-7 md:py-2`}>
+                                {loading ? (
+                                    <>
+                                        <svg
+                                            className="animate-spin h-5 w-5 text-white mr-2"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                            ></path>
+                                        </svg>
+                                        Sign up
+                                    </>
+                                ) : "Sign up"}
+                            </button>
                         </>
                     )
                 }

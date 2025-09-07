@@ -9,6 +9,7 @@ const UserPage = () => {
     const { loggedUser, removeLoggedUser } = useContext(UserInfoContext)
     const [show, setShow] = useState("dash")
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     React.useEffect(() => {
         if (!loggedUser) {
@@ -24,8 +25,12 @@ const UserPage = () => {
     }, [])
 
     const handleLogOut = () => {
-        removeLoggedUser()
-        toast.success("Logged out successfully 👋");
+        setLoading(true)
+        setTimeout(() => {
+            removeLoggedUser()
+            toast.success("Logged out successfully 👋");
+            setLoading(false)
+        }, 2000)
     }
 
     if (!loggedUser) {
@@ -68,9 +73,36 @@ const UserPage = () => {
 
             </div>
             <button
+                type='submit'
+                disabled={loading}
                 onClick={handleLogOut}
-                className='cursor-pointer max-w-max bg-orange-500 text-white rounded-full px-4 text-nowrap py-1 md:px-6 hover:bg-orange-600'
-            >Log out</button>
+                className={`flex ${loading ? "cursor-not-allowed bg-orange-400" : "bg-orange-500  hover:bg-orange-600 cursor-pointer"} justify-center items-center  mt-5  text-white rounded-full px-3 py-1 w-20 min-w-max md:px-7 md:py-2`}>
+                {loading ? (
+                    <>
+                        <svg
+                            className="animate-spin h-5 w-5 text-white mr-2"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            ></circle>
+                            <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                            ></path>
+                        </svg>
+                        Loging out..
+                    </>
+                ) : "Log out"}
+            </button>
 
         </section>
     )

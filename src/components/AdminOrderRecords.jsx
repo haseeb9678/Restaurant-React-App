@@ -49,7 +49,7 @@ const AdminOrderRecords = () => {
 
                                         <td className="border border-black/15 px-2 py-1 text-center">
                                             <img
-                                                className="inline-block w-12 h-12 md:w-20 md:h-20 object-cover rounded-full"
+                                                className="inline-block w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20  object-cover rounded-full"
                                                 src={order.item.image}
                                                 alt={order.item.name}
                                             />

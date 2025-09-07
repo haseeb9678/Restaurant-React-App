@@ -16,6 +16,7 @@ const OrderItem = () => {
     const [warnMsg, setWarnMsg] = useState('')
     const { addCartItem } = useContext(FoodContext)
     const { loggedIn } = useContext(UserInfoContext)
+    const [loading, setLoading] = useState(false)
     const { food_list, updateFoodListItem } = useContext(MenuInfoContext)
     const foodListItem = food_list.find((f) => f.id == location.state.id)
 
@@ -72,19 +73,24 @@ const OrderItem = () => {
                     quantity: quantity,
                     totalPrice: totalPrice
                 }
+                setLoading(true)
 
-                addCartItem(newItem)
-                updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity - quantity })
-                setQuantity(0);
-                setTotalPrice(0);
-                toast.success(
-                    <p>
-                        Item
-                        <span className='font-semibold'> {foodListItem.name} </span>
-                        Added to cart
-                    </p>
+                setTimeout(() => {
+                    addCartItem(newItem)
+                    updateFoodListItem({ ...foodListItem, quantity: foodListItem.quantity - quantity })
+                    setQuantity(0);
+                    setTotalPrice(0);
+                    toast.success(
+                        <p>
+                            Item
+                            <span className='font-semibold'> {foodListItem.name} </span>
+                            Added to cart
+                        </p>
 
-                )
+                    )
+                    setLoading(false)
+                }, 2000)
+
             } else {
                 if (!warn) {
                     toogleWarn();
@@ -171,8 +177,34 @@ const OrderItem = () => {
 
                                 <button
                                     onClick={handleCart}
-                                    className="mt-auto cursor-pointer bg-orange-500 flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl hover:bg-orange-600">
-                                    <span >Add to Cart</span>
+                                    disabled={loading}
+                                    className={`mt-auto flex justify-center items-center ${loading ? "cursor-not-allowed bg-orange-400" : "bg-orange-500  hover:bg-orange-600 cursor-pointer"} flex gap-2 justify-center items-center text-white px-4 py-2 rounded-xl`}>
+                                    {loading ? (
+                                        <>
+                                            <svg
+                                                className="animate-spin h-5 w-5 text-white mr-2"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <circle
+                                                    className="opacity-25"
+                                                    cx="12"
+                                                    cy="12"
+                                                    r="10"
+                                                    stroke="currentColor"
+                                                    strokeWidth="4"
+                                                ></circle>
+                                                <path
+                                                    className="opacity-75"
+                                                    fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                                ></path>
+                                            </svg>
+                                            Adding to Cart
+                                        </>
+                                    ) : "Add to Cart"}
+
                                     <PiShoppingCart />
                                     {
                                         totalPrice > 0 && <p>- ${totalPrice}</p>
