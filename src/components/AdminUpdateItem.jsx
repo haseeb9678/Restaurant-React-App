@@ -14,7 +14,6 @@ const AdminUpdateItem = ({ item }) => {
 
     useEffect(() => {
         if (validate) {
-            console.log('arrive');
             updateFoodListItem({ ...foodListItem, price: newPrice, quantity: newQuantity })
             setShowPasswordComp(false)
             toast.success(

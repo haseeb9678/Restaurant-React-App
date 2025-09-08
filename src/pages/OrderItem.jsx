@@ -57,9 +57,6 @@ const OrderItem = () => {
         }
     }
 
-    console.log(foodListItem);
-
-
     const handleCart = () => {
         if (loggedIn) {
             if (quantity > 0) {

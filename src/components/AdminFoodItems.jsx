@@ -21,8 +21,7 @@ const AdminFoodItems = ({ setShow, setItem }) => {
 
     const handleChange = (e) => {
         const value = e.currentTarget.value
-        const newList = food_list.filter((item) => item.name.includes(value) || item.id.includes(value))
-        console.log(newList);
+        const newList = food_list.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()) || item.id.includes(value))
         setFilteredList(newList)
     }
 
@@ -63,7 +62,7 @@ const AdminFoodItems = ({ setShow, setItem }) => {
             <div className='flex flex-col gap-3 xl:flex-row xl:justify-between xl:items-center'>
                 <p className='text-start text-lg'>Total Food Items: <span className='font-semibold'>{food_list.length}</span></p>
                 <form>
-                    <label htmlFor="search" className='flex flex-row-reverse w-55 md:w-90 justify-between items-center bg-gray-500/10 h-10 rounded-md px-3 md:px-5'>
+                    <label htmlFor="search" className='flex flex-row-reverse w-full md:w-90 lg:w-90 justify-between items-center bg-gray-500/10 h-10 rounded-md px-3 md:px-5'>
                         <input
                             onChange={(e) => handleChange(e)}
                             className='bg-transparent border-none outline-none w-full'

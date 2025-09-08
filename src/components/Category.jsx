@@ -1,12 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { menu_list } from '../assets/frontend_assets/assets'
 import { FoodContext } from '../contexts/foodData'
+import { MenuInfoContext } from '../contexts/menuInfo';
 
 const Category = () => {
     const { activeCategory, setActiveCategory } = useContext(FoodContext);
+    const { search, clearSearch } = useContext(MenuInfoContext)
 
     // handle click and double click
     const handleClick = (menuName) => {
+        if (search) {
+            clearSearch()
+        }
         if (activeCategory === menuName) {
             setActiveCategory(''); // double click = deselect
         } else {

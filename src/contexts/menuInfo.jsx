@@ -1,10 +1,29 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { food_list as initialFoodList } from "../assets/frontend_assets/assets";
 
 export const MenuInfoContext = createContext();
 
 export const MenuInfoContextProvider = ({ children }) => {
     const [foodList, setFoodList] = useState([]);
+    const [search, setSearch] = useState('')
+    const [searchList, setSearchList] = useState([])
+    const searchInput = useRef(null)
+
+    useEffect(() => {
+        if (search) {
+            const newList = foodList.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
+            setSearchList(newList)
+        } else {
+            setSearchList(foodList)
+        }
+
+    }, [search])
+
+    const clearSearch = () => {
+        setSearch('')
+        if (searchInput)
+            searchInput.current.value = ''
+    }
 
     useEffect(() => {
         const storedData = localStorage.getItem("menuData");
@@ -45,11 +64,17 @@ export const MenuInfoContextProvider = ({ children }) => {
         setFoodList(initialFoodList);
     }
 
+
     return (
         <MenuInfoContext.Provider
             value={{
                 addItem,
                 removeItem,
+                search,
+                setSearch,
+                searchList,
+                searchInput,
+                clearSearch,
                 updateFoodList,
                 updateFoodListItem,
                 setDefaultMenu,

@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { assets } from '../assets/frontend_assets/assets'
 import { useNavigate } from 'react-router-dom'
+import { MenuInfoContext } from '../contexts/menuInfo'
 
 const FoodItemCard = ({ item }) => {
 
-
     const navigate = useNavigate()
     const [click, setClick] = React.useState(false)
+    const { clearSearch } = useContext(MenuInfoContext)
 
     const toogleClick = () => {
         setClick(prev => !prev)
@@ -24,6 +25,7 @@ const FoodItemCard = ({ item }) => {
             className='flex flex-col min-w-50 max-w-95 cursor-pointer hover:bg-gray-300/30 transform hover:scale-102 transition duration-300  bg-gray-300/5 shadow-xl rounded-sm my-2 pb-3 md:max-w-100 lg:max-w-85'
             onClick={() => {
                 navigate('/orderItem', { state: item })
+                clearSearch()
                 toogleClick()
             }}
         >

@@ -16,7 +16,9 @@ const ShowUsersTable = () => {
     const handleChange = (e) => {
         const value = e.currentTarget.value
         const newUsers = users.filter((user) =>
-            JSON.stringify(user.id).includes(value) || user.name.includes(value) || user.email.includes(value))
+            JSON.stringify(user.id).includes(value) ||
+            user.name.toLowerCase().includes(value.toLowerCase()) ||
+            user.email.toLowerCase().includes(value.toLowerCase()))
         setFilteredUsers(newUsers)
     }
 
@@ -37,12 +39,12 @@ const ShowUsersTable = () => {
             <div className='flex flex-col gap-3 xl:flex-row xl:justify-between xl:items-center'>
                 <p className='text-start text-lg'>Total Users: <span className='font-semibold'>{users.length}</span></p>
                 <form>
-                    <label htmlFor="search" className='flex flex-row-reverse w-55 md:w-90 justify-between items-center bg-gray-500/10 h-10 rounded-md px-3 md:px-5'>
+                    <label htmlFor="search" className='flex flex-row-reverse w-full md:w-80 lg:w-90 justify-between items-center bg-gray-500/10 h-10 rounded-md px-3 md:px-5'>
                         <input
                             onChange={(e) => handleChange(e)}
                             className='bg-transparent border-none outline-none w-full'
                             type="text" name="search" id="search"
-                            placeholder='Search user by name, email or id' />
+                            placeholder='Search by name, email or id' />
                         <span className='mr-3 border-r-2 text-lg text-black/70 border-r-black/10 h-full flex items-center pr-3'><SlMagnifier /></span>
                     </label>
                 </form>

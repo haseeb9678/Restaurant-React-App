@@ -12,7 +12,6 @@ const CartItem = ({ id, item, totalPrice, quantity }) => {
     const [loadingRemove, setLoadingRemove] = useState(false)
 
     const foodListItem = food_list.find((f) => f.id == item.id)
-    console.log(foodListItem);
 
     const handleCheckout = () => {
         if (loggedIn) {
