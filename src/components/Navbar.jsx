@@ -39,23 +39,26 @@ const Navbar = () => {
                         </form>
                     </div>
                     <div className='flex gap-4'>
-                        <div onClick={() => navigate('/order')} className='relative cursor-pointer'>
-                            {loggedIn && loggedUser.ordersData.orders.length > 0 && (
-                                <p className='bg-orange-500 w-5 md:w-6 rounded-full text-white text-sm flex items-center justify-center absolute -top-1 left-4 md:left-5'>
-                                    {loggedUser.ordersData.orders.length}
-                                </p>
-                            )}
-                            <PiBag className='text-3xl md:text-4xl' />
+                        <div className='flex gap-3 items-center'>
+                            <div onClick={() => navigate('/order')} className='relative cursor-pointer'>
+                                {loggedIn && loggedUser.ordersData.orders.length > 0 && (
+                                    <p className='bg-orange-500 w-5 md:w-6 rounded-full text-white text-sm flex items-center justify-center absolute -top-1 left-4 md:left-5'>
+                                        {loggedUser.ordersData.orders.length}
+                                    </p>
+                                )}
+                                <PiBag className='text-3xl md:text-4xl' />
+                            </div>
+
+                            <div onClick={() => navigate('/cart')} className='relative cursor-pointer'>
+                                {loggedIn && loggedUser.ordersData.cart.length > 0 && (
+                                    <p className='bg-orange-500 w-5 md:w-6 rounded-full text-white text-sm flex items-center justify-center absolute -top-1 left-4 md:left-5'>
+                                        {loggedUser.ordersData.cart.length}
+                                    </p>
+                                )}
+                                <PiShoppingCart className='text-3xl md:text-4xl' />
+                            </div>
                         </div>
 
-                        <div onClick={() => navigate('/cart')} className='relative cursor-pointer'>
-                            {loggedIn && loggedUser.ordersData.cart.length > 0 && (
-                                <p className='bg-orange-500 w-5 md:w-6 rounded-full text-white text-sm flex items-center justify-center absolute -top-1 left-4 md:left-5'>
-                                    {loggedUser.ordersData.cart.length}
-                                </p>
-                            )}
-                            <PiShoppingCart className='text-3xl md:text-4xl' />
-                        </div>
 
                         {loggedIn ? (
                             <div className='flex flex-col cursor-pointer items-center justify-center mt-3 -ml-1 md:-ml-2 md:mt-4'>
