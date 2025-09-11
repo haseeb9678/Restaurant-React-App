@@ -80,10 +80,10 @@ const AdminDashboard = ({ setShow, setDashFilter }) => {
                         <CircularProgressbar
                             value={getActiveOrders() / getTotalOrders()}
                             maxValue={1}
-                            text={`${Math.round(getActiveOrders() / getTotalOrders())}%`}
+                            text={`${Math.round(getActiveOrders() / getTotalOrders() * 100)}%`}
                             styles={
                                 {
-                                    path: { stroke: "fff" },
+                                    path: { stroke: "#fff" },
                                     text: { fontSize: "19px", fontWeight: "bold", fill: "#fff" }
                                 }
                             }

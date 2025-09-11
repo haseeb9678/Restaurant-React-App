@@ -8,6 +8,7 @@ import AdminDashboard from '../components/AdminDashboard'
 import { toast } from 'react-toastify'
 import AdminOrders from '../components/AdminOrders'
 import AdminUpdateItem from '../components/AdminUpdateItem'
+import AdminAddItem from '../components/AdminAddItem'
 
 const AdminPage = () => {
     const { loggedIn, admin, removeLoggedAdmin } = useContext(AdminInfoContext)
@@ -72,6 +73,10 @@ const AdminPage = () => {
                         className={`border  ${show == 'activeOrders' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Active Orders
                     </div>
                     <div
+                        onClick={() => toogleShow("addItem")}
+                        className={`border  ${show == 'addItem' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Add Item
+                    </div>
+                    <div
                         onClick={() => toogleShow("items")}
                         className={`border  ${show == 'items' ? "bg-orange-100/20 text-orange-600 border-l-orange-500 border-l-5" : "bg-orange-500 hover:bg-orange-600 text-white"} cursor-pointer  w-[95%] px-3 md:px-5 py-1 rounded-[3px] border-r-0 -mr-2`}>Food Items
                     </div>
@@ -95,6 +100,8 @@ const AdminPage = () => {
                                         <AdminOrders dashFilter={dashFilter} />
                                     ) : show == 'updateItem' ? (
                                         <AdminUpdateItem setShow={setShow} item={item} />
+                                    ) : show == 'addItem' ? (
+                                        <AdminAddItem />
                                     ) : null
                                 )
                             )

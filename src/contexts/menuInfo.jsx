@@ -1,10 +1,12 @@
 import { createContext, useEffect, useRef, useState } from "react";
 import { food_list as initialFoodList } from "../assets/frontend_assets/assets";
+import { menu_list } from "../assets/frontend_assets/assets";
 
 export const MenuInfoContext = createContext();
 
 export const MenuInfoContextProvider = ({ children }) => {
     const [foodList, setFoodList] = useState([]);
+    const [categoryList, setCategoryList] = useState([])
     const [search, setSearch] = useState('')
     const [searchList, setSearchList] = useState([])
     const searchInput = useRef(null)
@@ -33,10 +35,11 @@ export const MenuInfoContextProvider = ({ children }) => {
             localStorage.setItem("menuData", JSON.stringify(initialFoodList));
             setFoodList(initialFoodList);
         }
+        setCategoryList(menu_list)
     }, []);
 
     const addItem = (item) => {
-        const newList = [...foodList, item];
+        const newList = [...foodList, { ...item, id: Number.parseInt(foodList.slice(-1)[0].id) + 1 }];
         setFoodList(newList);
         localStorage.setItem("menuData", JSON.stringify(newList));
     };
@@ -78,6 +81,7 @@ export const MenuInfoContextProvider = ({ children }) => {
                 updateFoodList,
                 updateFoodListItem,
                 setDefaultMenu,
+                categoryList,
                 food_list: foodList,
             }}
         >
